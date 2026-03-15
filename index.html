@@ -6,16 +6,20 @@
 <title>TFT Advisor</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
+  html, body {
     font-family: '微软雅黑', sans-serif;
-    background: rgba(10, 14, 25, 0.92);
+    background: transparent;
     color: #c8aa6e;
-    width: 360px;
-    height: 520px;
+    width: 320px;
+    height: 620px;
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid rgba(200,170,110,0.3);
     user-select: none;
+    transition: height 0.2s ease;
+  }
+  body {
+    background: rgba(10, 14, 25, 0.95);
+    border: 1px solid rgba(200,170,110,0.3);
   }
   #titlebar {
     display: flex;
@@ -35,9 +39,31 @@
     border-radius: 4px; opacity: 0.7;
   }
   #titlebar button:hover { opacity: 1; background: rgba(200,170,110,0.15); }
+  #titlebar .collapse-btn { font-size: 12px; padding: 2px 10px; }
+
+  /* Tab 样式 */
+  #tabs {
+    display: flex;
+    background: rgba(200,170,110,0.05);
+    border-bottom: 1px solid rgba(200,170,110,0.2);
+  }
+  #tabs .tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 12px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  #tabs .tab:hover { color: #c8aa6e; background: rgba(200,170,110,0.08); }
+  #tabs .tab.active { color: #c8aa6e; border-bottom-color: #c8aa6e; }
+
   #content {
     padding: 12px;
-    height: calc(100% - 46px);
+    height: calc(100% - 96px);
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -55,6 +81,27 @@
   #content::-webkit-scrollbar-thumb:hover {
     background: rgba(200,170,110,0.5);
   }
+
+  /* 视图容器 */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* 折叠状态 */
+  body.collapsed {
+    height: 42px;
+    background: transparent;
+    border: none;
+  }
+  body.collapsed #titlebar {
+    background: rgba(10, 14, 25, 0.95);
+    border: 1px solid rgba(200,170,110,0.3);
+    border-radius: 12px;
+  }
+  body.collapsed #tabs,
+  body.collapsed #content {
+    display: none;
+  }
+
   #status {
     font-size: 11px; color: #888; margin-bottom: 10px;
     padding: 6px 10px; background: rgba(255,255,255,0.04);
@@ -62,6 +109,8 @@
   }
   #status.ok { color: #56b368; }
   #status.err { color: #e84057; }
+
+  /* 搜索框 */
   #search {
     display: flex; gap: 8px; margin-bottom: 12px;
   }
@@ -81,6 +130,8 @@
     cursor: pointer; font-size: 13px;
   }
   #search button:hover { background: rgba(200,170,110,0.25); }
+
+  /* 结果区域 */
   #result { display: none; }
   .champ-header {
     display: flex; align-items: center; gap: 10px;
@@ -100,7 +151,11 @@
   .section-title {
     font-size: 11px; color: #888; margin-bottom: 6px;
     text-transform: uppercase; letter-spacing: 1px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(200,170,110,0.15);
   }
+  .section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
   .item-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
   .item-row {
     display: flex; align-items: center; justify-content: space-between;
@@ -110,14 +165,6 @@
   }
   .item-name { color: #e8d8b0; }
   .item-rate { color: #56b368; font-size: 11px; }
-  .section-title {
-    font-size: 11px; color: #888; margin-bottom: 6px;
-    text-transform: uppercase; letter-spacing: 1px;
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(200,170,110,0.15);
-  }
-  .section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
   .build-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
   .build-row {
     padding: 6px 8px;
@@ -147,31 +194,272 @@
     font-size: 10px; color: #555; text-align: center; margin-top: 8px;
     padding-bottom: 8px;
   }
+
+  /* 个人数据视图样式 */
+  .summoner-card {
+    background: rgba(200,170,110,0.08);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .summoner-name { font-size: 16px; font-weight: bold; color: #e8d8b0; margin-bottom: 4px; }
+  .summoner-rank { font-size: 12px; color: #56b368; }
+  .summoner-level { font-size: 11px; color: #888; }
+
+  .stats-section {
+    margin-bottom: 12px;
+  }
+  .stats-section h3 {
+    font-size: 12px; color: #c8aa6e;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(200,170,110,0.2);
+  }
+  .top-units {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .top-unit-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .top-unit-row:hover { background: rgba(200,170,110,0.1); }
+  .top-unit-row .name { font-size: 12px; color: #e8d8b0; }
+  .top-unit-row .stats { font-size: 11px; color: #888; }
+  .top-unit-row .rate { font-size: 11px; color: #56b368; }
+
+  .match-history {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .match-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .match-placement {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: bold;
+  }
+  .place-1 { background: #ffd700; color: #000; }
+  .place-2 { background: #c0c0c0; color: #000; }
+  .place-3 { background: #cd7f32; color: #fff; }
+  .place-4 { background: #56b368; color: #fff; }
+  .place-bad { background: #555; color: #aaa; }
+  .match-info { flex: 1; }
+  .match-units { font-size: 11px; color: #e8d8b0; }
+  .match-traits { font-size: 10px; color: #888; }
+
+  /* 实时对局视图样式 */
+  .phase-indicator {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    background: rgba(200,170,110,0.1);
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .phase-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #555;
+  }
+  .phase-dot.active { background: #56b368; animation: pulse 1.5s infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  .phase-text { font-size: 13px; color: #e8d8b0; }
+
+  .live-section {
+    margin-bottom: 12px;
+  }
+  .live-section h3 {
+    font-size: 12px; color: #c8aa6e;
+    margin-bottom: 8px;
+  }
+  .player-list {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .player-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .player-row .name { font-size: 11px; color: #e8d8b0; }
+  .player-row .hp { font-size: 11px; color: #e84057; }
+  .player-row.self { background: rgba(86,179,104,0.15); border: 1px solid rgba(86,179,104,0.3); }
+
+  .loading-spinner {
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px;
+    color: #888;
+    font-size: 12px;
+  }
+
+  /* 出装对比样式 */
+  .compare-section {
+    margin-bottom: 12px;
+  }
+  .compare-row {
+    display: flex; gap: 8px;
+    margin-bottom: 8px;
+  }
+  .compare-col {
+    flex: 1;
+    padding: 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+  }
+  .compare-col h4 {
+    font-size: 11px; color: #888;
+    margin-bottom: 6px;
+  }
+  .compare-items {
+    font-size: 11px; color: #e8d8b0;
+  }
+  .compare-item {
+    padding: 3px 0;
+  }
+  .compare-item.match { color: #56b368; }
+  .compare-item.missing { color: #e84057; }
+  .suggestion-box {
+    padding: 8px;
+    background: rgba(86,179,104,0.1);
+    border-radius: 6px;
+    border-left: 3px solid #56b368;
+    margin-top: 8px;
+  }
+  .suggestion-title { font-size: 11px; color: #56b368; margin-bottom: 4px; }
+  .suggestion-text { font-size: 11px; color: #888; }
+
+  /* 搜索建议下拉框 */
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(20, 25, 35, 0.98);
+    border: 1px solid rgba(200,170,110,0.3);
+    border-radius: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    margin-top: 4px;
+  }
+  .suggestions.show { display: block; }
+  .suggestions::-webkit-scrollbar { width: 4px; }
+  .suggestions::-webkit-scrollbar-thumb { background: rgba(200,170,110,0.3); border-radius: 2px; }
+  .suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #e8d8b0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .suggestion-item:last-child { border-bottom: none; }
+  .suggestion-item:hover { background: rgba(200,170,110,0.15); }
+  .suggestion-item .name { color: #e8d8b0; }
+  .suggestion-item .alias { font-size: 10px; color: #888; margin-left: 6px; }
+  .suggestion-item .cost-tag {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
 <div id="titlebar">
   <span class="title">TFT Advisor</span>
   <div class="btns">
+    <button class="collapse-btn" id="collapse-btn" title="折叠">▼</button>
     <button onclick="ipcRenderer.send('minimize-win')">—</button>
     <button onclick="ipcRenderer.send('close-win')">×</button>
   </div>
 </div>
+
+<div id="tabs">
+  <button class="tab active" data-view="recommend-view">装备推荐</button>
+  <button class="tab" data-view="live-view">实时对局</button>
+  <button class="tab" data-view="stats-view">个人数据</button>
+</div>
+
 <div id="content">
-  <div id="status">正在连接 LOL 客户端...</div>
-  <div id="search">
-    <input id="query" type="text" placeholder="输入英雄名（如：嘉文四世）" />
-    <button onclick="search()">查询</button>
+  <!-- 装备推荐视图 -->
+  <div id="recommend-view" class="view active">
+    <div id="status">正在连接 LOL 客户端...</div>
+    <div id="search" style="position:relative;">
+      <input id="query" type="text" placeholder="输入英雄名（如：嘉文四世）" autocomplete="off" />
+      <button onclick="search()">查询</button>
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+    <div id="result"></div>
   </div>
-  <div id="result"></div>
-  <div id="clipboard-hint">提示：复制英雄名后自动查询</div>
+
+  <!-- 实时对局视图 -->
+  <div id="live-view" class="view">
+    <div class="phase-indicator">
+      <div id="phase-dot" class="phase-dot"></div>
+      <span id="phase-text" class="phase-text">未在游戏中</span>
+    </div>
+    <div id="live-content">
+      <div class="no-data">开始游戏后显示实时数据</div>
+    </div>
+  </div>
+
+  <!-- 个人数据视图 -->
+  <div id="stats-view" class="view">
+    <div id="stats-content">
+      <div class="loading-spinner">正在加载个人数据...</div>
+    </div>
+  </div>
 </div>
 
 <script>
 const { ipcRenderer } = require('electron');
 
+// 折叠状态
+let isCollapsed = false;
+document.getElementById('collapse-btn').addEventListener('click', () => {
+  isCollapsed = !isCollapsed;
+  document.documentElement.classList.toggle('collapsed', isCollapsed);
+  document.body.classList.toggle('collapsed', isCollapsed);
+  document.getElementById('collapse-btn').textContent = isCollapsed ? '▲' : '▼';
+  ipcRenderer.send('toggle-collapse', isCollapsed);
+});
+
+// Tab 切换
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    // 切换 tab 激活状态
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    // 切换视图
+    const viewId = tab.dataset.view;
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+    // 切换到个人数据时刷新
+    if (viewId === 'stats-view') loadPersonalStats();
+    // 切换到实时对局时刷新
+    if (viewId === 'live-view') refreshLiveView();
+  });
+});
+
 // 初始化
+let lcuStatus = { ok: false };
+let championList = []; // 英雄列表缓存
+
 ipcRenderer.invoke('init').then(r => {
+  lcuStatus = r;
   const el = document.getElementById('status');
   if (r.ok) {
     el.className = 'ok';
@@ -182,6 +470,83 @@ ipcRenderer.invoke('init').then(r => {
   }
 });
 
+// 加载英雄列表
+ipcRenderer.invoke('get-champion-list').then(list => {
+  championList = list || [];
+});
+
+// ========== 搜索建议功能 ==========
+const queryInput = document.getElementById('query');
+const suggestionsEl = document.getElementById('suggestions');
+
+// 输入时显示建议
+queryInput.addEventListener('input', () => {
+  const value = queryInput.value.trim().toLowerCase();
+  if (!value || championList.length === 0) {
+    suggestionsEl.classList.remove('show');
+    suggestionsEl.innerHTML = '';
+    return;
+  }
+
+  // 筛选匹配的英雄
+  const matches = championList.filter(c => {
+    // 匹配名称
+    if (c.name.toLowerCase().includes(value)) return true;
+    // 匹配别名
+    if (c.aliases && c.aliases.some(a => a.toLowerCase().includes(value))) return true;
+    return false;
+  }).slice(0, 8); // 最多显示8个
+
+  if (matches.length === 0) {
+    suggestionsEl.classList.remove('show');
+    suggestionsEl.innerHTML = '';
+    return;
+  }
+
+  // 渲染建议列表
+  suggestionsEl.innerHTML = matches.map(c => {
+    const costClass = `cost-${Math.min(c.cost || 1, 5)}`;
+    const aliasStr = c.aliases && c.aliases.length > 0 ? `(${c.aliases[0]})` : '';
+    return `
+      <div class="suggestion-item" data-name="${c.name}" data-id="${c.id}">
+        <span><span class="name">${c.name}</span><span class="alias">${aliasStr}</span></span>
+        <span class="cost-tag ${costClass}">${c.cost}费</span>
+      </div>
+    `;
+  }).join('');
+
+  suggestionsEl.classList.add('show');
+});
+
+// 点击建议项
+suggestionsEl.addEventListener('click', (e) => {
+  const item = e.target.closest('.suggestion-item');
+  if (item) {
+    const name = item.dataset.name;
+    queryInput.value = name;
+    suggestionsEl.classList.remove('show');
+    suggestionsEl.innerHTML = '';
+    // 自动触发查询
+    search();
+  }
+});
+
+// 失焦隐藏建议（延迟以允许点击事件）
+queryInput.addEventListener('blur', () => {
+  setTimeout(() => {
+    suggestionsEl.classList.remove('show');
+  }, 200);
+});
+
+// ESC 键隐藏建议
+queryInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    suggestionsEl.classList.remove('show');
+    suggestionsEl.innerHTML = '';
+  }
+});
+
+// ========== 装备推荐功能 ==========
 async function search() {
   const q = document.getElementById('query').value.trim();
   if (!q) return;
@@ -306,6 +671,322 @@ setInterval(async () => {
     }
   } catch {}
 }, 1000);
+
+// ========== 个人数据功能 ==========
+async function loadPersonalStats() {
+  const el = document.getElementById('stats-content');
+  if (!lcuStatus.ok) {
+    el.innerHTML = '<div class="no-data">未连接到 LOL 客户端</div>';
+    return;
+  }
+
+  try {
+    const stats = await ipcRenderer.invoke('get-player-stats');
+    if (!stats) {
+      el.innerHTML = '<div class="no-data">无法获取玩家数据</div>';
+      return;
+    }
+
+    // 召唤师卡片
+    const summonerHtml = `
+      <div class="summoner-card">
+        <div class="summoner-name">${stats.summoner.name}</div>
+        <div class="summoner-rank">${stats.rank || '未定级'}</div>
+        <div class="summoner-level">等级 ${stats.summoner.level} | ${stats.games.totalGames} 场对局</div>
+      </div>
+    `;
+
+    // 常用英雄 TOP 10
+    const topUnitsHtml = stats.topUnits && stats.topUnits.length
+      ? stats.topUnits.slice(0, 10).map(u => `
+          <div class="top-unit-row" onclick="showUnitCompare('${u.id}')">
+            <span class="name">${u.name}</span>
+            <span class="stats">${u.games}场</span>
+            <span class="rate">前四 ${u.top4Rate}%</span>
+          </div>
+        `).join('')
+      : '<div class="no-data">暂无数据</div>';
+
+    // 最近对局
+    const matchesHtml = stats.recentMatches && stats.recentMatches.length
+      ? stats.recentMatches.slice(0, 10).map(m => {
+          const placeClass = m.placement <= 4 ? `place-${m.placement}` : 'place-bad';
+          const unitsStr = (m.units || []).slice(0, 3).map(u => u.name).join(', ');
+          return `
+            <div class="match-row">
+              <div class="match-placement ${placeClass}">${m.placement}</div>
+              <div class="match-info">
+                <div class="match-units">${unitsStr}</div>
+                <div class="match-traits">${m.traits || ''}</div>
+              </div>
+            </div>
+          `;
+        }).join('')
+      : '<div class="no-data">暂无对局记录</div>';
+
+    el.innerHTML = `
+      ${summonerHtml}
+      <div class="stats-section">
+        <h3>常用英雄 TOP 10</h3>
+        <div class="top-units">${topUnitsHtml}</div>
+      </div>
+      <div class="stats-section">
+        <h3>最近对局</h3>
+        <div class="match-history">${matchesHtml}</div>
+      </div>
+    `;
+  } catch (e) {
+    el.innerHTML = `<div class="no-data">加载失败: ${e.message}</div>`;
+  }
+}
+
+// 显示出装对比
+async function showUnitCompare(unitId) {
+  const el = document.getElementById('stats-content');
+  el.innerHTML = '<div class="loading-spinner">正在分析出装...</div>';
+
+  try {
+    const compare = await ipcRenderer.invoke('compare-builds', unitId);
+    if (!compare) {
+      el.innerHTML = '<div class="no-data">无法获取出装对比数据</div>';
+      return;
+    }
+
+    // 我的出装
+    const myItemsHtml = compare.myItems && compare.myItems.length
+      ? compare.myItems.map(i => `<div class="compare-item">${i.name} (${i.count}次)</div>`).join('')
+      : '<div class="compare-item">暂无数据</div>';
+
+    // 推荐出装
+    const recItemsHtml = compare.recommendedItems && compare.recommendedItems.length
+      ? compare.recommendedItems.map(i => {
+          const matched = compare.myItems?.some(m => m.id === i.id);
+          return `<div class="compare-item ${matched ? 'match' : 'missing'}">${i.name}</div>`;
+        }).join('')
+      : '<div class="compare-item">暂无数据</div>';
+
+    // 建议
+    const suggestionsHtml = compare.suggestions && compare.suggestions.length
+      ? compare.suggestions.map(s => `<div>• ${s}</div>`).join('')
+      : '继续加油！';
+
+    el.innerHTML = `
+      <div style="margin-bottom:12px">
+        <button onclick="loadPersonalStats()" style="background:rgba(200,170,110,0.15);border:1px solid rgba(200,170,110,0.4);border-radius:4px;color:#c8aa6e;padding:4px 10px;cursor:pointer;font-size:11px;">← 返回</button>
+      </div>
+      <div class="champ-header">
+        <span class="champ-name">${compare.unitName}</span>
+        <span style="margin-left:auto;font-size:11px;color:#888">${compare.myGames}场使用</span>
+      </div>
+      <div class="compare-section">
+        <div class="compare-row">
+          <div class="compare-col">
+            <h4>我的常用出装</h4>
+            <div class="compare-items">${myItemsHtml}</div>
+          </div>
+          <div class="compare-col">
+            <h4>DataTFT 推荐</h4>
+            <div class="compare-items">${recItemsHtml}</div>
+          </div>
+        </div>
+        <div class="suggestion-box">
+          <div class="suggestion-title">改进建议</div>
+          <div class="suggestion-text">${suggestionsHtml}</div>
+        </div>
+      </div>
+    `;
+  } catch (e) {
+    el.innerHTML = `<div class="no-data">分析失败: ${e.message}</div>`;
+  }
+}
+
+// ========== 实时对局功能 ==========
+let liveUpdateInterval = null;
+
+async function refreshLiveView() {
+  const phaseEl = document.getElementById('phase-text');
+  const dotEl = document.getElementById('phase-dot');
+  const contentEl = document.getElementById('live-content');
+
+  try {
+    const phase = await ipcRenderer.invoke('get-phase');
+
+    // 更新阶段指示
+    const phaseNames = {
+      'None': '大厅',
+      'Lobby': '房间',
+      'Matchmaking': '匹配中',
+      'ReadyCheck': '确认对局',
+      'ChampSelect': '选人阶段',
+      'InProgress': '游戏中',
+      'PreEndOfGame': '结算中',
+      'EndOfGame': '游戏结束'
+    };
+    phaseEl.textContent = phaseNames[phase] || phase;
+    dotEl.classList.toggle('active', phase === 'InProgress');
+
+    if (phase === 'InProgress') {
+      // 游戏进行中，获取实时数据
+      const liveData = await ipcRenderer.invoke('get-live-data');
+      if (liveData) {
+        renderLiveData(liveData);
+      } else {
+        contentEl.innerHTML = '<div class="no-data">获取实时数据失败</div>';
+      }
+    } else {
+      contentEl.innerHTML = '<div class="no-data">开始游戏后显示实时数据</div>';
+    }
+  } catch (e) {
+    contentEl.innerHTML = `<div class="no-data">错误: ${e.message}</div>`;
+  }
+}
+
+function renderLiveData(data) {
+  const contentEl = document.getElementById('live-content');
+
+  // 错误状态
+  if (!data || data.source === 'error') {
+    contentEl.innerHTML = `
+      <div class="live-section">
+        <div class="no-data" style="padding: 20px;">
+          ${data?.message || '获取数据失败'}
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // 等待游戏开始
+  if (data.source === 'waiting') {
+    contentEl.innerHTML = `
+      <div class="live-section">
+        <div style="padding: 12px; background: rgba(200,170,110,0.1); border-radius: 8px;">
+          <div style="font-size: 13px; color: #c8aa6e;">等待游戏开始</div>
+          <div style="font-size: 11px; color: #888; margin-top: 4px;">当前状态: ${getPhaseName(data.phase)}</div>
+        </div>
+      </div>
+      <div class="live-section">
+        <h3>快捷装备查询</h3>
+        <div style="font-size: 11px; color: #888; margin-bottom: 8px;">点击英雄名快速查看推荐装备：</div>
+        <div class="top-units">
+          ${getTopUnitButtons()}
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // 游戏进行中 - TFT 模式
+  const gameInfo = data.gameInfo || {};
+  const timeStr = data.source === 'phase_only' ? '--:--' : formatTime(gameInfo.gameTime || 0);
+
+  contentEl.innerHTML = `
+    <div class="live-section">
+      <div style="padding: 12px; background: rgba(86,179,104,0.1); border-radius: 8px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-size: 13px; color: #56b368;">${gameInfo.queueName || data.message || 'TFT 游戏'}</span>
+          <span style="font-size: 14px; color: #e8d8b0; font-weight: bold;">${timeStr}</span>
+        </div>
+        <div style="font-size: 11px; color: #888;">游戏进行中</div>
+      </div>
+    </div>
+    <div class="live-section">
+      <h3>快捷装备查询</h3>
+      <div style="font-size: 11px; color: #888; margin-bottom: 8px;">点击英雄名快速查看推荐装备：</div>
+      <div class="top-units">
+        ${getTopUnitButtons()}
+      </div>
+    </div>
+    <div class="live-section">
+      <h3>你的常用英雄</h3>
+      <div id="live-top-units" class="top-units">
+        <div style="padding: 10px; color: #888; font-size: 11px;">加载中...</div>
+      </div>
+    </div>
+  `;
+
+  // 加载玩家常用英雄
+  loadLiveTopUnits();
+}
+
+function getPhaseName(phase) {
+  const names = {
+    'None': '大厅',
+    'Lobby': '房间',
+    'Matchmaking': '匹配中',
+    'ReadyCheck': '确认对局',
+    'ChampSelect': '选人阶段',
+    'InProgress': '游戏中',
+    'PreEndOfGame': '结算中',
+    'EndOfGame': '游戏结束',
+    'WaitingForStats': '等待统计',
+    'Reconnect': '重连中'
+  };
+  return names[phase] || phase;
+}
+
+function formatTime(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+async function loadLiveTopUnits() {
+  const el = document.getElementById('live-top-units');
+  if (!el) return;
+
+  try {
+    const stats = await ipcRenderer.invoke('get-player-stats');
+    if (stats && stats.topUnits && stats.topUnits.length > 0) {
+      el.innerHTML = stats.topUnits.slice(0, 5).map(u => `
+        <div class="top-unit-row" onclick="quickSearch('${u.name}')">
+          <span class="name">${u.name}</span>
+          <span class="stats">${u.games}场</span>
+          <span class="rate">前四 ${u.top4Rate}%</span>
+        </div>
+      `).join('');
+    } else {
+      el.innerHTML = '<div class="no-data">暂无数据</div>';
+    }
+  } catch (e) {
+    el.innerHTML = '<div class="no-data">加载失败</div>';
+  }
+}
+
+function getTopUnitButtons() {
+  // 返回一些常用英雄的快捷按钮
+  const popularUnits = ['嘉文四世', '盖伦', '阿狸', '亚索', '卡莎', '赛娜'];
+  return popularUnits.map(name => `
+    <div class="top-unit-row" onclick="quickSearch('${name}')">
+      <span class="name">${name}</span>
+      <span class="rate" style="color:#c8aa6e">点击查询</span>
+    </div>
+  `).join('');
+}
+
+async function quickSearch(name) {
+  // 切换到装备推荐 tab
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-view="recommend-view"]').classList.add('active');
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('recommend-view').classList.add('active');
+
+  // 执行搜索
+  document.getElementById('query').value = name;
+  const rec = await ipcRenderer.invoke('recommend', name);
+  renderResult(rec);
+}
+
+// 定时刷新实时数据
+setInterval(() => {
+  const liveView = document.getElementById('live-view');
+  if (liveView.classList.contains('active')) {
+    refreshLiveView();
+  }
+}, 3000);
+
+// 初始加载
+refreshLiveView();
 </script>
 </body>
 </html>

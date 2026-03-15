@@ -79,6 +79,82 @@ class LCUClient {
   getRankedStats(puuid) {
     return this.get(`/lol-ranked/v1/ranked-stats/${puuid}`);
   }
+
+  // 实时游戏数据（游戏内 API）
+  getLiveClientData() {
+    // TFT 使用不同的端口，尝试多个端口
+    return new Promise((resolve) => {
+      const http = require('http');
+      const ports = [2924, 21337, 18663]; // SR, TFT 可能的端口
+
+      const tryPort = (index) => {
+        if (index >= ports.length) {
+          resolve({ status: 0, body: null });
+          return;
+        }
+        const options = {
+          hostname: '127.0.0.1',
+          port: ports[index],
+          path: '/liveclientdata/allgamedata',
+          method: 'GET',
+          timeout: 2000
+        };
+        const req = http.request(options, (res) => {
+          let data = '';
+          res.on('data', c => data += c);
+          res.on('end', () => {
+            try {
+              const body = JSON.parse(data);
+              resolve({ status: res.statusCode, body });
+            } catch {
+              tryPort(index + 1);
+            }
+          });
+        });
+        req.on('error', () => tryPort(index + 1));
+        req.on('timeout', () => { req.destroy(); tryPort(index + 1); });
+        req.end();
+      };
+      tryPort(0);
+    });
+  }
+
+  // 获取 TFT 游戏内玩家数据（通过 LCU）
+  async getTFTGameData() {
+    try {
+      // 获取游戏会话
+      const session = await this.get('/lol-gameflow/v1/session');
+      if (!session.body || session.status !== 200) return null;
+      return session.body;
+    } catch {
+      return null;
+    }
+  }
+
+  // 获取游戏队列信息
+  async getGameQueue() {
+    try {
+      const queue = await this.get('/lol-game-queues/v1/queues');
+      return queue.body;
+    } catch {
+      return null;
+    }
+  }
+
+  // 获取房间信息
+  getLobby() {
+    return this.get('/lol-lobby/v2/lobby');
+  }
+
+  // 获取选人阶段数据
+  getChampSelect() {
+    return this.get('/lol-champ-select/v1/session');
+  }
+
+  // 自动接受匹配
+  acceptMatch() {
+    return this.post('/lol-matchmaking/v1/ready-check/accept');
+  }
 }
 
 module.exports = { LCUClient };

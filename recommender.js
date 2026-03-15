@@ -138,9 +138,23 @@ function getChampName(apiName) {
 }
 
 function getTraitName(apiName) {
-  const normalized = apiName.toLowerCase();
-  const trait = traitData[normalized];
-  return trait ? trait.name : apiName.replace(/^TFT\d+_/, '');
+  if (!apiName) return '';
+
+  // 尝试多种格式匹配
+  const formats = [
+    apiName.toLowerCase(),                          // tft16_freljord
+    apiName.replace(/^Set\d+_/i, 'tft16_').toLowerCase(),  // Set16_Freljord -> tft16_freljord
+    `tft16_${apiName.toLowerCase()}`,               // Freljord -> tft16_freljord
+    apiName.toLowerCase().replace(/^tft\d+_/, ''),  // 去除前缀
+  ];
+
+  for (const fmt of formats) {
+    const trait = traitData[fmt];
+    if (trait) return trait.name;
+  }
+
+  // 未找到则返回清理后的名称
+  return apiName.replace(/^TFT\d+_/i, '').replace(/^Set\d+_/i, '');
 }
 
 function getItemName(apiName) {
