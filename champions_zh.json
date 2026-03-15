@@ -1,0 +1,834 @@
+{
+  "tft16_tristana": {
+    "name": "崔丝塔娜",
+    "cost": 2,
+    "traits": [
+      "约德尔人",
+      "枪手"
+    ]
+  },
+  "tft16_lulu": {
+    "name": "璐璐",
+    "cost": 1,
+    "traits": [
+      "约德尔人",
+      "法师"
+    ]
+  },
+  "tft16_teemo": {
+    "name": "提莫",
+    "cost": 2,
+    "traits": [
+      "约德尔人",
+      "狙神"
+    ]
+  },
+  "tft16_rumble": {
+    "name": "兰博",
+    "cost": 1,
+    "traits": [
+      "约德尔人",
+      "护卫"
+    ]
+  },
+  "tft16_nautilus": {
+    "name": "诺提勒斯",
+    "cost": 3,
+    "traits": [
+      "比尔吉沃特",
+      "主宰",
+      "神盾使"
+    ]
+  },
+  "tft16_twistedfate": {
+    "name": "崔斯特",
+    "cost": 2,
+    "traits": [
+      "比尔吉沃特",
+      "迅击战士"
+    ]
+  },
+  "tft16_gangplank": {
+    "name": "普朗克",
+    "cost": 3,
+    "traits": [
+      "比尔吉沃特",
+      "裁决战士",
+      "征服者"
+    ]
+  },
+  "tft16_illaoi": {
+    "name": "俄洛伊",
+    "cost": 1,
+    "traits": [
+      "比尔吉沃特",
+      "斗士"
+    ]
+  },
+  "tft16_missfortune": {
+    "name": "厄运小姐",
+    "cost": 4,
+    "traits": [
+      "比尔吉沃特",
+      "枪手"
+    ]
+  },
+  "tft16_sion": {
+    "name": "赛恩",
+    "cost": 2,
+    "traits": [
+      "诺克萨斯",
+      "斗士"
+    ]
+  },
+  "tft16_briar": {
+    "name": "贝蕾亚",
+    "cost": 1,
+    "traits": [
+      "诺克萨斯",
+      "裁决战士",
+      "主宰"
+    ]
+  },
+  "tft16_draven": {
+    "name": "德莱文",
+    "cost": 3,
+    "traits": [
+      "诺克萨斯",
+      "迅击战士"
+    ]
+  },
+  "tft16_ambessa": {
+    "name": "安蓓萨",
+    "cost": 4,
+    "traits": [
+      "诺克萨斯",
+      "征服者"
+    ]
+  },
+  "tft16_zoe": {
+    "name": "佐伊",
+    "cost": 3,
+    "traits": [
+      "巨神峰"
+    ]
+  },
+  "tft16_leona": {
+    "name": "蕾欧娜",
+    "cost": 3,
+    "traits": [
+      "巨神峰"
+    ]
+  },
+  "tft16_aphelios": {
+    "name": "厄斐琉斯",
+    "cost": 2,
+    "traits": [
+      "巨神峰"
+    ]
+  },
+  "tft16_taric": {
+    "name": "塔里克",
+    "cost": 4,
+    "traits": [
+      "巨神峰"
+    ]
+  },
+  "tft16_jarvaniv": {
+    "name": "嘉文四世",
+    "cost": 1,
+    "traits": [
+      "德玛西亚",
+      "护卫"
+    ]
+  },
+  "tft16_sona": {
+    "name": "娑娜",
+    "cost": 1,
+    "traits": [
+      "德玛西亚",
+      "神谕者"
+    ]
+  },
+  "tft16_garen": {
+    "name": "盖伦",
+    "cost": 4,
+    "traits": [
+      "德玛西亚",
+      "护卫"
+    ]
+  },
+  "tft16_lux": {
+    "name": "拉克丝",
+    "cost": 4,
+    "traits": [
+      "德玛西亚",
+      "法师"
+    ]
+  },
+  "tft16_anivia": {
+    "name": "艾尼维亚",
+    "cost": 1,
+    "traits": [
+      "弗雷尔卓德",
+      "神谕者"
+    ]
+  },
+  "tft16_ashe": {
+    "name": "艾希",
+    "cost": 2,
+    "traits": [
+      "弗雷尔卓德",
+      "迅击战士"
+    ]
+  },
+  "tft16_braum": {
+    "name": "布隆",
+    "cost": 4,
+    "traits": [
+      "弗雷尔卓德",
+      "神盾使"
+    ]
+  },
+  "tft16_lissandra": {
+    "name": "丽桑卓",
+    "cost": 4,
+    "traits": [
+      "弗雷尔卓德",
+      "神谕者"
+    ]
+  },
+  "tft16_milio": {
+    "name": "米利欧",
+    "cost": 3,
+    "traits": [
+      "以绪塔尔",
+      "神谕者"
+    ]
+  },
+  "tft16_neeko": {
+    "name": "妮蔻",
+    "cost": 2,
+    "traits": [
+      "以绪塔尔",
+      "法师",
+      "护卫"
+    ]
+  },
+  "tft16_jinx": {
+    "name": "金克丝",
+    "cost": 3,
+    "traits": [
+      "祖安",
+      "枪手"
+    ]
+  },
+  "tft16_caitlyn": {
+    "name": "凯特琳",
+    "cost": 1,
+    "traits": [
+      "皮尔特沃夫",
+      "狙神"
+    ]
+  },
+  "tft16_vi": {
+    "name": "蔚",
+    "cost": 2,
+    "traits": [
+      "皮尔特沃夫",
+      "祖安",
+      "护卫"
+    ]
+  },
+  "tft16_seraphine": {
+    "name": "萨勒芬妮",
+    "cost": 4,
+    "traits": [
+      "皮尔特沃夫",
+      "耀光使"
+    ]
+  },
+  "tft16_yasuo": {
+    "name": "亚索",
+    "cost": 2,
+    "traits": [
+      "艾欧尼亚",
+      "裁决战士"
+    ]
+  },
+  "tft16_ahri": {
+    "name": "阿狸",
+    "cost": 3,
+    "traits": [
+      "艾欧尼亚",
+      "法师"
+    ]
+  },
+  "tft16_wukong": {
+    "name": "孙悟空",
+    "cost": 4,
+    "traits": [
+      "艾欧尼亚",
+      "斗士"
+    ]
+  },
+  "tft16_shen": {
+    "name": "慎",
+    "cost": 1,
+    "traits": [
+      "艾欧尼亚",
+      "斗士"
+    ]
+  },
+  "tft16_malzahar": {
+    "name": "玛尔扎哈",
+    "cost": 3,
+    "traits": [
+      "虚空",
+      "耀光使"
+    ]
+  },
+  "tft16_reksai": {
+    "name": "雷克塞",
+    "cost": 2,
+    "traits": [
+      "虚空",
+      "征服者"
+    ]
+  },
+  "tft16_chogath": {
+    "name": "科加斯",
+    "cost": 2,
+    "traits": [
+      "虚空",
+      "主宰"
+    ]
+  },
+  "tft16_kogmaw": {
+    "name": "克格莫",
+    "cost": 1,
+    "traits": [
+      "虚空",
+      "法师",
+      "狙神"
+    ]
+  },
+  "tft16_annie": {
+    "name": "安妮",
+    "cost": 5,
+    "traits": [
+      "黑暗之女",
+      "法师"
+    ]
+  },
+  "tft16_ornn": {
+    "name": "奥恩",
+    "cost": 5,
+    "traits": [
+      "山隐之焰",
+      "神盾使"
+    ]
+  },
+  "tft16_kindred": {
+    "name": "千珏",
+    "cost": 5,
+    "traits": [
+      "永猎双子",
+      "迅击战士"
+    ]
+  },
+  "tft16_azir": {
+    "name": "阿兹尔",
+    "cost": 5,
+    "traits": [
+      "恕瑞玛",
+      "沙漠皇帝",
+      "耀光使"
+    ]
+  },
+  "tft16_zilean": {
+    "name": "基兰",
+    "cost": 5,
+    "traits": [
+      "时光守护者",
+      "神谕者"
+    ]
+  },
+  "tft16_fiddlesticks": {
+    "name": "费德提克",
+    "cost": 5,
+    "traits": [
+      "远古恐惧",
+      "征服者"
+    ]
+  },
+  "tft16_shyvana": {
+    "name": "希瓦娜",
+    "cost": 5,
+    "traits": [
+      "龙血武姬",
+      "主宰"
+    ]
+  },
+  "tft16_galio": {
+    "name": "加里奥",
+    "cost": 5,
+    "traits": [
+      "德玛西亚",
+      "正义巨像"
+    ]
+  },
+  "tft16_tahmkench": {
+    "name": "塔姆",
+    "cost": 5,
+    "traits": [
+      "比尔吉沃特",
+      "河流之王",
+      "斗士"
+    ]
+  },
+  "tft16_sejuani": {
+    "name": "瑟庄妮",
+    "cost": 3,
+    "traits": [
+      "弗雷尔卓德",
+      "护卫"
+    ]
+  },
+  "tft16_sett": {
+    "name": "瑟提",
+    "cost": 5,
+    "traits": [
+      "艾欧尼亚",
+      "腕豪"
+    ]
+  },
+  "tft16_brock": {
+    "name": "岩宝",
+    "cost": 5,
+    "traits": [
+      "以绪塔尔"
+    ]
+  },
+  "tft16_thex": {
+    "name": "海克斯霸龙",
+    "cost": 5,
+    "traits": [
+      "海克斯机甲",
+      "皮尔特沃夫",
+      "枪手"
+    ]
+  },
+  "tft16_belveth": {
+    "name": "卑尔维斯",
+    "cost": 4,
+    "traits": [
+      "虚空",
+      "裁决战士"
+    ]
+  },
+  "tft16_singed": {
+    "name": "辛吉德",
+    "cost": 4,
+    "traits": [
+      "祖安",
+      "主宰"
+    ]
+  },
+  "tft16_aurelionsol": {
+    "name": "奥瑞利安·索尔",
+    "cost": 5,
+    "traits": [
+      "铸星龙王",
+      "巨神峰"
+    ]
+  },
+  "tft16_veigar": {
+    "name": "维迦",
+    "cost": 4,
+    "traits": [
+      "约德尔人",
+      "法师"
+    ]
+  },
+  "tft16_baronnashor": {
+    "name": "纳什男爵",
+    "cost": 5,
+    "traits": [
+      "虚空",
+      "纳什男爵"
+    ]
+  },
+  "tft16_darius": {
+    "name": "德莱厄斯",
+    "cost": 3,
+    "traits": [
+      "诺克萨斯",
+      "护卫"
+    ]
+  },
+  "tft16_yone": {
+    "name": "永恩",
+    "cost": 4,
+    "traits": [
+      "艾欧尼亚",
+      "裁决战士"
+    ]
+  },
+  "tft16_warwick": {
+    "name": "沃里克",
+    "cost": 4,
+    "traits": [
+      "祖安",
+      "迅击战士"
+    ]
+  },
+  "tft16_fizz": {
+    "name": "菲兹",
+    "cost": 4,
+    "traits": [
+      "比尔吉沃特",
+      "约德尔人"
+    ]
+  },
+  "tft16_poppy": {
+    "name": "波比",
+    "cost": 2,
+    "traits": [
+      "德玛西亚",
+      "约德尔人",
+      "主宰"
+    ]
+  },
+  "tft16_kennen": {
+    "name": "凯南",
+    "cost": 3,
+    "traits": [
+      "艾欧尼亚",
+      "约德尔人",
+      "护卫"
+    ]
+  },
+  "tft16_ziggs": {
+    "name": "吉格斯",
+    "cost": 5,
+    "traits": [
+      "祖安",
+      "约德尔人",
+      "狙神"
+    ]
+  },
+  "tft16_aatrox": {
+    "name": "亚托克斯",
+    "cost": 5,
+    "traits": [
+      "暗裔",
+      "暗裔剑魔",
+      "裁决战士"
+    ]
+  },
+  "tft16_volibear": {
+    "name": "沃利贝尔",
+    "cost": 5,
+    "traits": [
+      "弗雷尔卓德",
+      "斗士"
+    ]
+  },
+  "tft16_jhin": {
+    "name": "烬",
+    "cost": 1,
+    "traits": [
+      "艾欧尼亚",
+      "枪手"
+    ]
+  },
+  "tft16_piltoverinvention": {
+    "name": "皮尔特沃夫发明",
+    "cost": 1,
+    "traits": []
+  },
+  "tft16_sylas": {
+    "name": "塞拉斯",
+    "cost": 5,
+    "traits": [
+      "解脱者",
+      "法师",
+      "护卫"
+    ]
+  },
+  "tft16_ryze": {
+    "name": "瑞兹",
+    "cost": 5,
+    "traits": [
+      "符文法师"
+    ]
+  },
+  "tft16_nidalee": {
+    "name": "奈德丽",
+    "cost": 4,
+    "traits": [
+      "以绪塔尔",
+      "狂野女猎手"
+    ]
+  },
+  "tft16_tryndamere": {
+    "name": "泰达米尔",
+    "cost": 2,
+    "traits": [
+      "弗雷尔卓德",
+      "裁决战士"
+    ]
+  },
+  "tft16_riftherald": {
+    "name": "峡谷先锋",
+    "cost": 4,
+    "traits": [
+      "虚空",
+      "斗士"
+    ]
+  },
+  "tft16_mel": {
+    "name": "梅尔",
+    "cost": 5,
+    "traits": [
+      "诺克萨斯",
+      "耀光使"
+    ]
+  },
+  "tft16_graves": {
+    "name": "格雷福斯",
+    "cost": 2,
+    "traits": [
+      "比尔吉沃特",
+      "枪手"
+    ]
+  },
+  "tft16_skarner": {
+    "name": "斯卡纳",
+    "cost": 4,
+    "traits": [
+      "以绪塔尔"
+    ]
+  },
+  "tft16_diana": {
+    "name": "黛安娜",
+    "cost": 4,
+    "traits": [
+      "巨神峰"
+    ]
+  },
+  "tft16_kaisa": {
+    "name": "卡莎",
+    "cost": 4,
+    "traits": [
+      "虚空之女",
+      "虚空",
+      "狙神"
+    ]
+  },
+  "tft16_renekton": {
+    "name": "雷克顿",
+    "cost": 4,
+    "traits": [
+      "恕瑞玛"
+    ]
+  },
+  "tft16_nasus": {
+    "name": "内瑟斯",
+    "cost": 4,
+    "traits": [
+      "恕瑞玛"
+    ]
+  },
+  "tft16_xerath": {
+    "name": "泽拉斯",
+    "cost": 5,
+    "traits": [
+      "恕瑞玛",
+      "远古巫灵"
+    ]
+  },
+  "tft16_thresh": {
+    "name": "锤石",
+    "cost": 5,
+    "traits": [
+      "暗影岛",
+      "神盾使"
+    ]
+  },
+  "tft16_gwen": {
+    "name": "格温",
+    "cost": 3,
+    "traits": [
+      "暗影岛",
+      "耀光使"
+    ]
+  },
+  "tft16_kalista": {
+    "name": "卡莉丝塔",
+    "cost": 4,
+    "traits": [
+      "暗影岛",
+      "征服者"
+    ]
+  },
+  "tft16_leblanc": {
+    "name": "乐芙兰",
+    "cost": 3,
+    "traits": [
+      "诺克萨斯",
+      "神谕者"
+    ]
+  },
+  "tft16_viego": {
+    "name": "佛耶戈",
+    "cost": 1,
+    "traits": [
+      "暗影岛",
+      "迅击战士"
+    ]
+  },
+  "tft16_ekko": {
+    "name": "艾克",
+    "cost": 2,
+    "traits": [
+      "祖安",
+      "耀光使"
+    ]
+  },
+  "tft16_bard": {
+    "name": "巴德",
+    "cost": 2,
+    "traits": [
+      "星界游神"
+    ]
+  },
+  "tft16_vayne": {
+    "name": "薇恩",
+    "cost": 3,
+    "traits": [
+      "德玛西亚",
+      "狙神"
+    ]
+  },
+  "tft16_yunara": {
+    "name": "芸阿娜",
+    "cost": 4,
+    "traits": [
+      "艾欧尼亚",
+      "迅击战士"
+    ]
+  },
+  "tft16_swain": {
+    "name": "斯维因",
+    "cost": 4,
+    "traits": [
+      "诺克萨斯",
+      "法师",
+      "主宰"
+    ]
+  },
+  "tft16_xinzhao": {
+    "name": "赵信",
+    "cost": 2,
+    "traits": [
+      "德玛西亚",
+      "艾欧尼亚",
+      "神盾使"
+    ]
+  },
+  "tft16_yorick": {
+    "name": "约里克",
+    "cost": 2,
+    "traits": [
+      "暗影岛",
+      "神盾使"
+    ]
+  },
+  "tft16_orianna": {
+    "name": "奥莉安娜",
+    "cost": 2,
+    "traits": [
+      "皮尔特沃夫",
+      "神谕者"
+    ]
+  },
+  "tft16_qiyana": {
+    "name": "奇亚娜",
+    "cost": 1,
+    "traits": [
+      "以绪塔尔",
+      "裁决战士"
+    ]
+  },
+  "tft16_loris": {
+    "name": "洛里斯",
+    "cost": 3,
+    "traits": [
+      "皮尔特沃夫",
+      "神盾使"
+    ]
+  },
+  "tft16_blitzcrank": {
+    "name": "布里茨",
+    "cost": 1,
+    "traits": [
+      "祖安",
+      "主宰"
+    ]
+  },
+  "tft16_drmundo": {
+    "name": "蒙多医生",
+    "cost": 3,
+    "traits": [
+      "祖安",
+      "斗士"
+    ]
+  },
+  "tft16_zaahen": {
+    "name": "亚恒",
+    "cost": 5,
+    "traits": [
+      "暗裔",
+      "不落魔锋"
+    ]
+  },
+  "tft16_lucian": {
+    "name": "卢锡安与赛娜",
+    "cost": 5,
+    "traits": [
+      "系魂圣枪",
+      "枪手"
+    ]
+  },
+  "tft16_kobuko": {
+    "name": "可酷伯与悠米",
+    "cost": 3,
+    "traits": [
+      "约德尔人",
+      "斗士",
+      "神谕者"
+    ]
+  },
+  "tft_bluegolem": {
+    "name": "魔像",
+    "cost": 1,
+    "traits": []
+  },
+  "tft9_slime_crab": {
+    "name": "峡谷迅捷蟹",
+    "cost": 1,
+    "traits": []
+  },
+  "tft_trainingdummy": {
+    "name": "训练假人",
+    "cost": 1,
+    "traits": []
+  },
+  "tft_elderdragon": {
+    "name": "远古巨龙",
+    "cost": 1,
+    "traits": []
+  }
+}

@@ -1,0 +1,836 @@
+{
+  "tfttutorial_assassin": {
+    "name": "刺客"
+  },
+  "tfttutorial_blademaster": {
+    "name": "剑士"
+  },
+  "tfttutorial_brawler": {
+    "name": "斗士"
+  },
+  "tfttutorial_demon": {
+    "name": "恶魔"
+  },
+  "tfttutorial_glacial": {
+    "name": "极地"
+  },
+  "tfttutorial_gunslinger": {
+    "name": "枪手"
+  },
+  "tfttutorial_hextech": {
+    "name": "海克斯科技"
+  },
+  "tfttutorial_imperial": {
+    "name": "帝国"
+  },
+  "tfttutorial_ninja": {
+    "name": "忍者"
+  },
+  "tfttutorial_pirate": {
+    "name": "海盗"
+  },
+  "tfttutorial_ranger": {
+    "name": "游侠"
+  },
+  "tfttutorial_robot": {
+    "name": "机器人"
+  },
+  "tfttutorial_shapeshifter": {
+    "name": "换形师"
+  },
+  "tfttutorial_sorcerer": {
+    "name": "法师"
+  },
+  "tfttutorial_void": {
+    "name": "虚空"
+  },
+  "tfttutorial_wild": {
+    "name": "狂野"
+  },
+  "tfttutorial_yordle": {
+    "name": "约德尔"
+  },
+  "tfttutorial_tutorialsecondary": {
+    "name": "守护者"
+  },
+  "tfttutorial_tutorialprimary": {
+    "name": "典范"
+  },
+  "tft15_bastion": {
+    "name": "护卫"
+  },
+  "tft15_battleacademia": {
+    "name": "战斗学院"
+  },
+  "tft15_destroyer": {
+    "name": "裁决使者"
+  },
+  "tft15_dragonfist": {
+    "name": "龙的传人"
+  },
+  "tft15_edgelord": {
+    "name": "刀锋领主"
+  },
+  "tft15_empyrean": {
+    "name": "至高天"
+  },
+  "tft15_heavyweight": {
+    "name": "重量级斗士"
+  },
+  "tft15_spellslinger": {
+    "name": "法师"
+  },
+  "tft15_monstertrainer": {
+    "name": "小怪兽训练师"
+  },
+  "tft15_oldmentor": {
+    "name": "大宗师"
+  },
+  "tft15_prodigy": {
+    "name": "天才"
+  },
+  "tft15_protector": {
+    "name": "圣盾使"
+  },
+  "tft15_juggernaut": {
+    "name": "主宰"
+  },
+  "tft15_sniper": {
+    "name": "狙神"
+  },
+  "tft15_soulfighter": {
+    "name": "斗魂战士"
+  },
+  "tft15_starguardian": {
+    "name": "星之守护者"
+  },
+  "tft15_supremecells": {
+    "name": "兵王"
+  },
+  "tft15_sentairanger": {
+    "name": "超级战队"
+  },
+  "tft15_luchador": {
+    "name": "假面摔角手"
+  },
+  "tft15_gemforce": {
+    "name": "水晶玫瑰"
+  },
+  "tft15_thecrew": {
+    "name": "奥德赛"
+  },
+  "tft15_captain": {
+    "name": "卡牌大师"
+  },
+  "tft15_rosemother": {
+    "name": "荆棘之兴"
+  },
+  "tft15_strategist": {
+    "name": "司令"
+  },
+  "tft15_duelist": {
+    "name": "决斗大师"
+  },
+  "tft15_eltigre": {
+    "name": "魄罗之心"
+  },
+  "tft15_mechanictrait_bloodfury": {
+    "name": "渴血英雄"
+  },
+  "tft15_mechanictrait_stretchyarms": {
+    "name": "延展手臂"
+  },
+  "tft15_mechanictrait_infernalspeed": {
+    "name": "炼狱速度"
+  },
+  "tft15_mechanictrait_attackexpert": {
+    "name": "攻击专家"
+  },
+  "tft15_mechanictrait_magicexpert": {
+    "name": "魔法专家"
+  },
+  "tft15_mechanictrait_finalform": {
+    "name": "最终形态"
+  },
+  "tft15_mechanictrait_starstudent": {
+    "name": "明星学生"
+  },
+  "tft15_mechanictrait_builtdifferent": {
+    "name": "平平无奇"
+  },
+  "tft15_mechanictrait_metabolicexplosion": {
+    "name": "勃勃生机"
+  },
+  "tft15_mechanictrait_manarush": {
+    "name": "法力倾泻"
+  },
+  "tft15_mechanictrait_unflinching": {
+    "name": "不可屈服"
+  },
+  "tft15_mechanictrait_exilesedge": {
+    "name": "血亲兄弟"
+  },
+  "tft15_mechanictrait_untouchable": {
+    "name": "不可触及"
+  },
+  "tft15_mechanictrait_thrillseeker": {
+    "name": "刺激追寻者"
+  },
+  "tft15_mechanictrait_resistant": {
+    "name": "抵抗"
+  },
+  "tft15_mechanictrait_fusiondance": {
+    "name": "融合舞"
+  },
+  "tft15_mechanictrait_criticalthreat": {
+    "name": "暴击威胁"
+  },
+  "tft15_mechanictrait_rogue": {
+    "name": "刺杀"
+  },
+  "tft15_mechanictrait_trickster": {
+    "name": "替身忍术"
+  },
+  "tft15_mechanictrait_notdoneyet": {
+    "name": "决不罢休"
+  },
+  "tft15_mechanictrait_fighterspirit": {
+    "name": "战士之魄"
+  },
+  "tft15_mechanictrait_superstar": {
+    "name": "超级巨星"
+  },
+  "tft15_mechanictrait_caretaker": {
+    "name": "游神"
+  },
+  "tft15_mechanictrait_robustranger": {
+    "name": "机器连者"
+  },
+  "tft15_mechanictrait_shadowjutsu": {
+    "name": "影分身"
+  },
+  "tft15_mechanictrait_killerinstinct": {
+    "name": "杀手本能"
+  },
+  "tft15_mechanictrait_selfish": {
+    "name": "自私自利"
+  },
+  "tft15_mechanictrait_demolitionist": {
+    "name": "爆破专家"
+  },
+  "tft15_mechanictrait_bullethell": {
+    "name": "纯粹弹幕地狱"
+  },
+  "tft15_mechanictrait_timeskip": {
+    "name": "闪烁攻击"
+  },
+  "tft15_mechanictrait_lovers": {
+    "name": "粉丝福利"
+  },
+  "tft15_mechanictrait_doublestrike": {
+    "name": "双重打击"
+  },
+  "tft15_mechanictrait_spiritsword": {
+    "name": "英灵剑"
+  },
+  "tft15_mechanictrait_corrupted": {
+    "name": "堕落使者"
+  },
+  "tft15_mechanictrait_chaosstorm": {
+    "name": "风暴统御"
+  },
+  "tft15_mechanictrait_mage": {
+    "name": "魔术师"
+  },
+  "tft15_mechanictrait_over9000": {
+    "name": "战斗力超过9000"
+  },
+  "tft15_mechanictrait_innerfire": {
+    "name": "心灵烈焰"
+  },
+  "tft15_mechanictrait_starsailor": {
+    "name": "星之水手战士"
+  },
+  "tft15_mechanictrait_teamcaptain": {
+    "name": "群星领袖"
+  },
+  "tft15_mechanictrait_ultrastance": {
+    "name": "极致形态"
+  },
+  "tft15_mechanictrait_seriousslam": {
+    "name": "起飞咯"
+  },
+  "tft15_mechanictrait_cyclonerush": {
+    "name": "飓风闪击"
+  },
+  "tft15_mechanictrait_doomsayer": {
+    "name": "末日预言者"
+  },
+  "tft15_mechanictrait_kahunahuna": {
+    "name": "秘传奥义"
+  },
+  "tft15_mechanictrait_singularity": {
+    "name": "奇点"
+  },
+  "tft15_mechanictrait_rarecandy": {
+    "name": "稀有点心"
+  },
+  "tft15_mechanictrait_magic": {
+    "name": "最大魔力"
+  },
+  "tft15_mechanictrait_attack": {
+    "name": "最大攻击"
+  },
+  "tft15_mechanictrait_speed": {
+    "name": "最大速度"
+  },
+  "tft15_mechanictrait_health": {
+    "name": "最大活力"
+  },
+  "tft15_mechanictrait_wondertwins": {
+    "name": "神奇双子"
+  },
+  "tft15_mechanictrait_mechablade": {
+    "name": "机甲神兵"
+  },
+  "tft15_mechanictrait_mastermind": {
+    "name": "首脑"
+  },
+  "tft15_mechanictrait_finalist": {
+    "name": "决赛圈选手"
+  },
+  "tft15_mechanictrait_100pushups": {
+    "name": "100个俯卧撑"
+  },
+  "tft15_mechanictrait_finalascent": {
+    "name": "终极飞升"
+  },
+  "tft15_mechanictrait_crmechcashout": {
+    "name": "水晶核心"
+  },
+  "tft15_mechanictrait_classy": {
+    "name": "职业风采"
+  },
+  "tft15_mechanictrait_supergenius": {
+    "name": "超级天才"
+  },
+  "tft15_mechanictrait_efficient": {
+    "name": "高效率"
+  },
+  "tft15_mechanictrait_rampingrage": {
+    "name": "狂暴渐长"
+  },
+  "tft15_mechanictrait_momentum": {
+    "name": "动力十足"
+  },
+  "tft15_mechanictrait_bestestboy": {
+    "name": "最棒棒的崽"
+  },
+  "tft15_mechanictrait_bladenado": {
+    "name": "剑刃风暴"
+  },
+  "tft15_mechanictrait_bestdefense": {
+    "name": "最好的防御"
+  },
+  "tft15_mechanictrait_acepilot": {
+    "name": "太空王牌"
+  },
+  "tft15_mechanictrait_powerfont": {
+    "name": "能量源泉"
+  },
+  "tft15_mechanictrait_herosarc": {
+    "name": "英雄弧光"
+  },
+  "tft15_mechanictrait_solefighter": {
+    "name": "单打独斗"
+  },
+  "tft15_mechanictrait_strongspark": {
+    "name": "极限火花"
+  },
+  "tft15_mechanictrait_spikyshell": {
+    "name": "锥刺护甲"
+  },
+  "tft15_mechanictrait_standstrong": {
+    "name": "孤身站场"
+  },
+  "tft15_mechanictrait_adaptiveskin": {
+    "name": "适应性皮肤"
+  },
+  "tft15_mechanictrait_pureheart": {
+    "name": "纯洁心灵"
+  },
+  "tft15_mechanictrait_kaijusize": {
+    "name": "哥斯拉坦克"
+  },
+  "tft15_mechanictrait_roundtwo": {
+    "name": "二周目"
+  },
+  "tft15_mechanictrait_atomic": {
+    "name": "原子能"
+  },
+  "tft15_mechanictrait_tinyterror": {
+    "name": "小讨厌鬼"
+  },
+  "tft15_mechanictrait_pursuit": {
+    "name": "追击"
+  },
+  "tft15_mechanictrait_dreadnote": {
+    "name": "惧亡笔记"
+  },
+  "tft15_mechanictrait_essenceshare": {
+    "name": "有蓝同享"
+  },
+  "tft15_mechanictrait_titanform": {
+    "name": "巨像"
+  },
+  "tft15_mechanictrait_maxcap": {
+    "name": "帽子戏法"
+  },
+  "tft15_mechanictrait_weights": {
+    "name": "负重"
+  },
+  "tft15_mechanictrait_precision": {
+    "name": "精准"
+  },
+  "tft15_mechanictrait_roborumble": {
+    "name": "假面骑士"
+  },
+  "tft15_mechanictrait_supremacy": {
+    "name": "至尊兵王"
+  },
+  "tft15_mechanictrait_bodychange": {
+    "name": "身体变换"
+  },
+  "tft15_mechanictrait_warmingup": {
+    "name": "正在热身"
+  },
+  "tft15_mechanictrait_frosttouch": {
+    "name": "霜冻之触"
+  },
+  "tft15_mechanictrait_mechpilot": {
+    "name": "机甲驾驶员"
+  },
+  "tft15_mechanictrait_finalboss": {
+    "name": "最终BOSS"
+  },
+  "tft15_mechanictrait_fairytail": {
+    "name": "妖精的尾巴"
+  },
+  "tft15_mechanictrait_corrosive": {
+    "name": "腐蚀"
+  },
+  "tft15_mechanictrait_packtactics": {
+    "name": "狗海战术"
+  },
+  "tft15_mechanictrait_solarbreath": {
+    "name": "阳炎吐息"
+  },
+  "tft15_mechanictrait_unstoppable": {
+    "name": "不可阻挡"
+  },
+  "tft15_mechanictrait_socialite": {
+    "name": "社交名流"
+  },
+  "tft15_mechanictrait_needlework": {
+    "name": "引针簇射"
+  },
+  "tft15_mechanictrait_allout": {
+    "name": "傲岸雄姿"
+  },
+  "tft15_mechanictrait_ontheedge": {
+    "name": "背水佬"
+  },
+  "tft15_mechanictrait_mindbattery": {
+    "name": "思维电池"
+  },
+  "tft15_mechanictrait_surge66": {
+    "name": "电涌66"
+  },
+  "tft15_mechanictrait_darkamulet": {
+    "name": "黑暗护符"
+  },
+  "tft15_mechanictrait_soulchipper": {
+    "name": "灵魂切削者"
+  },
+  "tft15_mechanictrait_artisticko": {
+    "name": "艺术KO"
+  },
+  "tft15_mechanictrait_skypiercer": {
+    "name": "突破天际"
+  },
+  "tft15_mechanictrait_livingwall": {
+    "name": "活体城墙"
+  },
+  "tft15_mechanictrait_gatherforce": {
+    "name": "聚集元气"
+  },
+  "tft15_mechanictrait_annihilation": {
+    "name": "灭绝"
+  },
+  "tft15_mechanictrait_bonusbloom": {
+    "name": "额外绽放"
+  },
+  "tft15_mechanictrait_doombarrage": {
+    "name": "末日弹幕"
+  },
+  "tft15_mechanictrait_icebender": {
+    "name": "冰霜统御"
+  },
+  "tft15_mechanictrait_standunited": {
+    "name": "秘奥义！慈悲度魂落"
+  },
+  "tft15_mechanictrait_bludgeoner": {
+    "name": "钝器能手"
+  },
+  "tft15_mechanictrait_crimsonveil": {
+    "name": "血色面纱"
+  },
+  "tft15_mechanictrait_desperado": {
+    "name": "亡命之徒"
+  },
+  "tft15_mechanictrait_heartofgold": {
+    "name": "黄金之心"
+  },
+  "tft15_mechanictrait_hemorrhage": {
+    "name": "出血"
+  },
+  "tft15_mechanictrait_hyperactive": {
+    "name": "嗨到不行"
+  },
+  "tft15_mechanictrait_keeneye": {
+    "name": "锐利的眼"
+  },
+  "tft15_mechanictrait_midastouch": {
+    "name": "点金手"
+  },
+  "tft15_mechanictrait_goldenedge": {
+    "name": "金色锋刃"
+  },
+  "tft15_mechanictrait_risingchaos": {
+    "name": "混沌渐起"
+  },
+  "tft15_mechanictrait_shinebrighter": {
+    "name": "更强照耀"
+  },
+  "tft15_mechanictrait_supremesurge": {
+    "name": "兵王霸气"
+  },
+  "tft15_mechanictrait_goldengloves": {
+    "name": "金手套"
+  },
+  "tft15_mechanictrait_veteran": {
+    "name": "老手"
+  },
+  "tft15_mechanictrait_starryknight": {
+    "name": "星之骑士"
+  },
+  "tft15_mechanictrait_driftduo": {
+    "name": "飘移双人组"
+  },
+  "tft15_mechanictrait_stalkingdart": {
+    "name": "追踪飞镖"
+  },
+  "tft15_mechanictrait_windwall": {
+    "name": "风之障壁"
+  },
+  "tft15_mechanictrait_supermega": {
+    "name": "超究极"
+  },
+  "tft15_mechanictrait_dentingblows": {
+    "name": "爆弹重拳"
+  },
+  "tft15_mechanictrait_snaxtime": {
+    "name": "点心时间"
+  },
+  "tft15_mechanictrait_attempt37": {
+    "name": "第37次尝试"
+  },
+  "tft15_mechanictrait_2xko": {
+    "name": "2XKO"
+  },
+  "tft15_mechanictrait_doubledown": {
+    "name": "双人连携"
+  },
+  "tft15_mechanictrait_furybreak": {
+    "name": "怒意爆发"
+  },
+  "tft15_mechanictrait_quicktag": {
+    "name": "快速换人"
+  },
+  "tft15_mechanictrait_tentaclesmash": {
+    "name": "触手猛击"
+  },
+  "tft15_mechanictrait_cornercarry": {
+    "name": "缩角C位"
+  },
+  "tft15_mechanictrait_rocketgrab": {
+    "name": "机械飞爪"
+  },
+  "tft15_mechanictrait_2xcontender": {
+    "name": "2X格斗家"
+  },
+  "tft15_mechanictrait_wellrounded": {
+    "name": "404强化果实"
+  },
+  "tft15_mechanictrait_noxioustrap": {
+    "name": "有毒陷阱"
+  },
+  "tft16_bilgewater": {
+    "name": "比尔吉沃特"
+  },
+  "tft16_demacia": {
+    "name": "德玛西亚"
+  },
+  "tft16_explorer": {
+    "name": "以绪塔尔"
+  },
+  "tft16_freljord": {
+    "name": "弗雷尔卓德"
+  },
+  "tft16_ionia": {
+    "name": "艾欧尼亚"
+  },
+  "tft16_noxus": {
+    "name": "诺克萨斯"
+  },
+  "tft16_piltover": {
+    "name": "皮尔特沃夫"
+  },
+  "tft16_targon": {
+    "name": "巨神峰"
+  },
+  "tft16_void": {
+    "name": "虚空"
+  },
+  "tft16_yordle": {
+    "name": "约德尔人"
+  },
+  "tft16_zaun": {
+    "name": "祖安"
+  },
+  "tft16_brawler": {
+    "name": "斗士"
+  },
+  "tft16_defender": {
+    "name": "护卫"
+  },
+  "tft16_gunslinger": {
+    "name": "枪手"
+  },
+  "tft16_invoker": {
+    "name": "神谕者"
+  },
+  "tft16_juggernaut": {
+    "name": "主宰"
+  },
+  "tft16_longshot": {
+    "name": "狙神"
+  },
+  "tft16_magus": {
+    "name": "耀光使"
+  },
+  "tft16_rapidfire": {
+    "name": "迅击战士"
+  },
+  "tft16_slayer": {
+    "name": "裁决战士"
+  },
+  "tft16_sorcerer": {
+    "name": "法师"
+  },
+  "tft16_vanquisher": {
+    "name": "征服者"
+  },
+  "tft16_darkchild": {
+    "name": "黑暗之女"
+  },
+  "tft16_blacksmith": {
+    "name": "山隐之焰"
+  },
+  "tft16_emperor": {
+    "name": "沙漠皇帝"
+  },
+  "tft16_chronokeeper": {
+    "name": "时光守护者"
+  },
+  "tft16_harvester": {
+    "name": "远古恐惧"
+  },
+  "tft16_soulbound": {
+    "name": "系魂圣枪"
+  },
+  "tft16_heroic": {
+    "name": "正义巨像"
+  },
+  "tft16_glutton": {
+    "name": "河流之王"
+  },
+  "tft16_theboss": {
+    "name": "腕豪"
+  },
+  "tft16_aatroxunique": {
+    "name": "暗裔剑魔"
+  },
+  "tft16_shurima": {
+    "name": "恕瑞玛"
+  },
+  "tft16_shadowisles": {
+    "name": "暗影岛"
+  },
+  "tft16_kaisaunique": {
+    "name": "虚空之女"
+  },
+  "tft16_runemage": {
+    "name": "符文法师"
+  },
+  "tft16_huntress": {
+    "name": "狂野女猎手"
+  },
+  "tft16_sylastrait": {
+    "name": "解脱者"
+  },
+  "tft16_caretaker": {
+    "name": "星界游神"
+  },
+  "tft16_xerathunique": {
+    "name": "远古巫灵"
+  },
+  "tft16_kindredunique": {
+    "name": "永猎双子"
+  },
+  "tft16_shyvanaunique": {
+    "name": "龙血武姬"
+  },
+  "tft16_warden": {
+    "name": "神盾使"
+  },
+  "tft16_baronunique": {
+    "name": "纳什男爵"
+  },
+  "tft16_hexmech": {
+    "name": "海克斯机甲"
+  },
+  "tft16_zaahentrait": {
+    "name": "不落魔锋"
+  },
+  "tft16_aurelionsolunique": {
+    "name": "铸星龙王"
+  },
+  "tft16_darkinweapon": {
+    "name": "暗裔"
+  },
+  "tft16_teamup_jarvanshyvana": {
+    "name": "巨龙卫士"
+  },
+  "tft16_teamup_lucianvayne": {
+    "name": "光明哨兵"
+  },
+  "tft16_teamup_singedteemo": {
+    "name": "绝命毒师"
+  },
+  "tft16_teamup_ekkozilean": {
+    "name": "时间旅者"
+  },
+  "tft16_teamup_ambessakindred": {
+    "name": "与狼共舞"
+  },
+  "tft4_boss": {
+    "name": "霸王"
+  },
+  "tft4_cultist": {
+    "name": "腥红之月"
+  },
+  "tft4_divine": {
+    "name": "天神"
+  },
+  "tft4_fortune": {
+    "name": "福星"
+  },
+  "tft4_duelist": {
+    "name": "决斗大师"
+  },
+  "tft4_emperor": {
+    "name": "枭雄"
+  },
+  "tft4_hunter": {
+    "name": "猎人"
+  },
+  "tft4_dusk": {
+    "name": "灵魂莲华夜幽"
+  },
+  "tft4_moonlight": {
+    "name": "月神"
+  },
+  "tft4_assassin": {
+    "name": "刺客"
+  },
+  "tft4_brawler": {
+    "name": "斗士"
+  },
+  "tft4_enlightened": {
+    "name": "玉剑仙"
+  },
+  "tft4_keeper": {
+    "name": "神盾使"
+  },
+  "tft4_mage": {
+    "name": "魔法师"
+  },
+  "tft4_adept": {
+    "name": "宗师"
+  },
+  "tft4_mystic": {
+    "name": "秘术师"
+  },
+  "tft4_ninja": {
+    "name": "忍者"
+  },
+  "tft4_dazzler": {
+    "name": "耀光使"
+  },
+  "tft4_shade": {
+    "name": "夜影"
+  },
+  "tft4_spirit": {
+    "name": "灵魂莲华明昼"
+  },
+  "tft4_tormented": {
+    "name": "天煞"
+  },
+  "tft4_vanguard": {
+    "name": "重装战士"
+  },
+  "tft4_elderwood": {
+    "name": "永恒之森"
+  },
+  "tft4_sharpshooter": {
+    "name": "神射手"
+  },
+  "tft4_warlord": {
+    "name": "三国猛将"
+  },
+  "tft4_exile": {
+    "name": "浪人"
+  },
+  "tft4_blacksmith": {
+    "name": "铁匠"
+  },
+  "tft4_daredevil": {
+    "name": "主宰"
+  },
+  "tft4_dragonsoul": {
+    "name": "龙魂"
+  },
+  "tft4_fabled": {
+    "name": "山海绘卷"
+  },
+  "tft4_slayer": {
+    "name": "战神"
+  },
+  "tft4_syphoner": {
+    "name": "摄魂使"
+  },
+  "tft4_executioner": {
+    "name": "裁决使"
+  }
+}

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFT Advisor</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: '微软雅黑', sans-serif;
+    background: rgba(10, 14, 25, 0.92);
+    color: #c8aa6e;
+    width: 360px;
+    height: 520px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(200,170,110,0.3);
+    user-select: none;
+  }
+  #titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(200,170,110,0.1);
+    border-bottom: 1px solid rgba(200,170,110,0.2);
+    -webkit-app-region: drag;
+    cursor: move;
+  }
+  #titlebar .title { font-size: 13px; font-weight: bold; color: #c8aa6e; }
+  #titlebar .btns { display: flex; gap: 6px; -webkit-app-region: no-drag; }
+  #titlebar button {
+    background: none; border: none; color: #c8aa6e;
+    cursor: pointer; font-size: 14px; padding: 2px 6px;
+    border-radius: 4px; opacity: 0.7;
+  }
+  #titlebar button:hover { opacity: 1; background: rgba(200,170,110,0.15); }
+  #content {
+    padding: 12px;
+    height: calc(100% - 46px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  #content::-webkit-scrollbar {
+    width: 6px;
+  }
+  #content::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+  }
+  #content::-webkit-scrollbar-thumb {
+    background: rgba(200,170,110,0.3);
+    border-radius: 3px;
+  }
+  #content::-webkit-scrollbar-thumb:hover {
+    background: rgba(200,170,110,0.5);
+  }
+  #status {
+    font-size: 11px; color: #888; margin-bottom: 10px;
+    padding: 6px 10px; background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+  }
+  #status.ok { color: #56b368; }
+  #status.err { color: #e84057; }
+  #search {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+  #search input {
+    flex: 1; padding: 8px 12px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(200,170,110,0.3);
+    border-radius: 6px; color: #e8d8b0; font-size: 13px;
+    outline: none;
+  }
+  #search input:focus { border-color: #c8aa6e; }
+  #search button {
+    padding: 8px 14px;
+    background: rgba(200,170,110,0.15);
+    border: 1px solid rgba(200,170,110,0.4);
+    border-radius: 6px; color: #c8aa6e;
+    cursor: pointer; font-size: 13px;
+  }
+  #search button:hover { background: rgba(200,170,110,0.25); }
+  #result { display: none; }
+  .champ-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(200,170,110,0.15);
+  }
+  .champ-name { font-size: 18px; font-weight: bold; color: #e8d8b0; }
+  .champ-cost {
+    font-size: 11px; padding: 2px 8px;
+    border-radius: 10px; font-weight: bold;
+  }
+  .cost-1 { background: #555; color: #ddd; }
+  .cost-2 { background: #2d6b2d; color: #8afa8a; }
+  .cost-3 { background: #1a4a7a; color: #7ab8ff; }
+  .cost-4 { background: #5a2d7a; color: #d49aff; }
+  .cost-5 { background: #7a4a00; color: #ffcc44; }
+  .section-title {
+    font-size: 11px; color: #888; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .item-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .item-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px; font-size: 12px;
+  }
+  .item-name { color: #e8d8b0; }
+  .item-rate { color: #56b368; font-size: 11px; }
+  .section-title {
+    font-size: 11px; color: #888; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(200,170,110,0.15);
+  }
+  .section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .build-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .build-row {
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .build-items { font-size: 11px; color: #e8d8b0; margin-bottom: 2px; }
+  .build-rate { font-size: 10px; color: #56b368; }
+  .unit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-bottom: 12px; }
+  .unit-card {
+    padding: 5px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .unit-card .name { font-size: 11px; color: #e8d8b0; }
+  .unit-card .rate { font-size: 10px; color: #56b368; }
+  .comp-list { display: flex; flex-direction: column; gap: 4px; }
+  .comp-row {
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .comp-traits { font-size: 11px; color: #c8aa6e; margin-bottom: 2px; }
+  .comp-rate { font-size: 11px; color: #56b368; }
+  .no-data { color: #666; font-size: 12px; text-align: center; padding: 20px; }
+  #clipboard-hint {
+    font-size: 10px; color: #555; text-align: center; margin-top: 8px;
+    padding-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+<div id="titlebar">
+  <span class="title">TFT Advisor</span>
+  <div class="btns">
+    <button onclick="ipcRenderer.send('minimize-win')">—</button>
+    <button onclick="ipcRenderer.send('close-win')">×</button>
+  </div>
+</div>
+<div id="content">
+  <div id="status">正在连接 LOL 客户端...</div>
+  <div id="search">
+    <input id="query" type="text" placeholder="输入英雄名（如：嘉文四世）" />
+    <button onclick="search()">查询</button>
+  </div>
+  <div id="result"></div>
+  <div id="clipboard-hint">提示：复制英雄名后自动查询</div>
+</div>
+
+<script>
+const { ipcRenderer } = require('electron');
+
+// 初始化
+ipcRenderer.invoke('init').then(r => {
+  const el = document.getElementById('status');
+  if (r.ok) {
+    el.className = 'ok';
+    el.textContent = `已连接 | ${r.games} 场历史对局`;
+  } else {
+    el.className = 'err';
+    el.textContent = `连接失败: ${r.error}`;
+  }
+});
+
+async function search() {
+  const q = document.getElementById('query').value.trim();
+  if (!q) return;
+  const rec = await ipcRenderer.invoke('recommend', q);
+  renderResult(rec);
+}
+
+document.getElementById('query').addEventListener('keydown', e => {
+  if (e.key === 'Enter') search();
+});
+
+function renderResult(rec) {
+  const el = document.getElementById('result');
+  if (!rec) {
+    el.style.display = 'block';
+    el.innerHTML = '<div class="no-data">未找到该英雄数据</div>';
+    return;
+  }
+  const costClass = `cost-${Math.min(rec.cost || 1, 5)}`;
+
+  // 基础统计
+  const baseHtml = rec.baseStats ? `
+    <div style="display:flex;gap:10px;font-size:10px;color:#888;margin-bottom:8px">
+      <span>样本: ${rec.baseStats.totalGames?.toLocaleString()}</span>
+      <span>前四: ${rec.baseStats.top4Rate}%</span>
+      <span>胜率: ${rec.baseStats.winRate}%</span>
+      <span>均排: ${rec.baseStats.avgPlace}</span>
+    </div>
+  ` : '';
+
+  // 推荐单件装备
+  const itemsHtml = rec.recommendedItems && rec.recommendedItems.length
+    ? rec.recommendedItems.map(i => {
+        const rateInfo = i.top4Rate
+          ? `前四: ${i.top4Rate}%`
+          : (i.type || '');
+        return `<div class="item-row">
+          <span class="item-name">${i.name}</span>
+          <span class="item-rate">${rateInfo}</span>
+        </div>`;
+      }).join('')
+    : '<div class="no-data">暂无装备数据</div>';
+
+  // 出装组合（三神装）
+  const buildsHtml = rec.buildCombinations && rec.buildCombinations.length
+    ? rec.buildCombinations.map(b => `
+        <div class="build-row">
+          <div class="build-items">${b.items.join(' + ')}</div>
+          <div class="build-rate">前四: ${b.top4Rate}% | 胜率: ${b.winRate}% | 样本: ${b.count}</div>
+        </div>
+      `).join('')
+    : '';
+
+  // 相关弈子
+  const unitsHtml = rec.relatedUnits && rec.relatedUnits.length
+    ? rec.relatedUnits.map(u => `
+        <div class="unit-card">
+          <div class="name">${u.name}</div>
+          <div class="rate">前四: ${u.top4Rate}% ${u.starRate ? `| 三星率: ${u.starRate}%` : ''}</div>
+        </div>
+      `).join('')
+    : '';
+
+  // 羁绊统计
+  const traitsHtml = rec.traitStats && rec.traitStats.length
+    ? rec.traitStats.map(t => `
+        <div class="comp-row">
+          <div class="comp-traits"><b>${t.name}</b> (${t.tier}层)</div>
+          <div class="comp-rate">前四: ${t.top4Rate}% | 胜率: ${t.winRate}%</div>
+        </div>
+      `).join('')
+    : '<div class="no-data">暂无羁绊数据</div>';
+
+  // 羁绊
+  const traitsStr = rec.traits && rec.traits.length
+    ? rec.traits.map(t => getTraitName(t)).join(', ')
+    : '';
+
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="champ-header">
+      <span class="champ-name">${rec.unitName}</span>
+      <span class="champ-cost ${costClass}">${rec.cost}费</span>
+      <span style="margin-left:auto;font-size:11px;color:#56b368">${rec.role || ''}</span>
+    </div>
+    ${traitsStr ? `<div style="font-size:11px;color:#888;margin-bottom:8px">${traitsStr}</div>` : ''}
+    ${baseHtml}
+    <div class="section-title">推荐单件</div>
+    <div class="item-list">${itemsHtml}</div>
+    ${buildsHtml ? `<div class="section-title">出装组合</div><div class="build-list">${buildsHtml}</div>` : ''}
+    ${unitsHtml ? `<div class="section-title">相关弈子</div><div class="unit-grid">${unitsHtml}</div>` : ''}
+    <div class="section-title">羁绊统计</div>
+    <div class="comp-list">${traitsHtml}</div>
+  `;
+}
+
+// 辅助函数：获取羁绊中文名
+function getTraitName(apiName) {
+  const traitMap = {
+    'TFT16_Demacia': '德玛西亚', 'TFT16_Ionia': '艾欧尼亚', 'TFT16_Void': '虚空',
+    'TFT16_Hextech': '海克斯科技', 'TFT16_Dragon': '巨龙', 'TFT16_ShadowIsle': '暗影岛',
+    'TFT16_Celestial': '天神', 'TFT16_Bruiser': '格斗家', 'TFT16_Slayer': '屠龙勇士',
+    'TFT16_Warden': '守护者', 'TFT16_Invoker': '唤魔师', 'TFT16_Reaper': '收割者',
+    'TFT16_Ambusher': '刺客', 'TFT16_Brawler': '斗士', 'TFT16_Fortune': '福牛'
+  };
+  return traitMap[apiName] || apiName.replace(/^TFT\d+_/, '');
+}
+
+// 剪贴板监听
+let lastClip = '';
+setInterval(async () => {
+  try {
+    const { clipboard } = require('electron');
+    const text = clipboard.readText().trim();
+    if (text && text !== lastClip && text.length < 20) {
+      lastClip = text;
+      const rec = await ipcRenderer.invoke('recommend', text);
+      if (rec) {
+        document.getElementById('query').value = text;
+        renderResult(rec);
+      }
+    }
+  } catch {}
+}, 1000);
+</script>
+</body>
+</html>
