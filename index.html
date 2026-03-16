@@ -550,8 +550,15 @@ queryInput.addEventListener('keydown', (e) => {
 async function search() {
   const q = document.getElementById('query').value.trim();
   if (!q) return;
-  const rec = await ipcRenderer.invoke('recommend', q);
-  renderResult(rec);
+  const resultEl = document.getElementById('result');
+  resultEl.style.display = 'block';
+  resultEl.innerHTML = '<div class="loading-spinner">正在查询装备推荐...</div>';
+  try {
+    const rec = await ipcRenderer.invoke('recommend', q);
+    renderResult(rec);
+  } catch (e) {
+    resultEl.innerHTML = '<div class="no-data">查询失败，请重试</div>';
+  }
 }
 
 document.getElementById('query').addEventListener('keydown', e => {
