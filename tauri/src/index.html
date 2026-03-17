@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFT Advisor</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    font-family: '微软雅黑', sans-serif;
+    background: transparent;
+    color: #c8aa6e;
+    width: 320px;
+    height: 620px;
+    border-radius: 12px;
+    overflow: hidden;
+    user-select: none;
+    transition: height 0.2s ease;
+  }
+  body {
+    background: rgba(10, 14, 25, 0.95);
+    border: 1px solid rgba(200,170,110,0.3);
+    border-radius: 12px;
+  }
+  #titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: rgba(200,170,110,0.1);
+    border-bottom: 1px solid rgba(200,170,110,0.2);
+    border-radius: 12px 12px 0 0;
+    -webkit-app-region: drag;
+    cursor: move;
+  }
+  #titlebar .title { font-size: 13px; font-weight: bold; color: #c8aa6e; }
+  #titlebar .btns { display: flex; gap: 6px; -webkit-app-region: no-drag; }
+  #titlebar button {
+    background: none; border: none; color: #c8aa6e;
+    cursor: pointer; font-size: 14px; padding: 2px 6px;
+    border-radius: 4px; opacity: 0.7;
+  }
+  #titlebar button:hover { opacity: 1; background: rgba(200,170,110,0.15); }
+  #titlebar .collapse-btn { font-size: 12px; padding: 2px 10px; }
+
+  /* Tab 样式 */
+  #tabs {
+    display: flex;
+    background: rgba(200,170,110,0.05);
+    border-bottom: 1px solid rgba(200,170,110,0.2);
+  }
+  #tabs .tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 12px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  #tabs .tab:hover { color: #c8aa6e; background: rgba(200,170,110,0.08); }
+  #tabs .tab.active { color: #c8aa6e; border-bottom-color: #c8aa6e; }
+
+  #content {
+    padding: 12px;
+    height: calc(100% - 96px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  #content::-webkit-scrollbar {
+    width: 6px;
+  }
+  #content::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+  }
+  #content::-webkit-scrollbar-thumb {
+    background: rgba(200,170,110,0.3);
+    border-radius: 3px;
+  }
+  #content::-webkit-scrollbar-thumb:hover {
+    background: rgba(200,170,110,0.5);
+  }
+
+  /* 视图容器 */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* 折叠状态 */
+  html.collapsed {
+    height: 42px;
+  }
+  body.collapsed {
+    height: 42px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  body.collapsed #titlebar {
+    background: rgba(10, 14, 25, 0.95);
+    border: 1px solid rgba(200,170,110,0.3);
+    border-radius: 12px;
+    box-shadow: none;
+  }
+  body:not(.collapsed) #titlebar {
+    border-radius: 12px 12px 0 0;
+  }
+  body.collapsed #tabs,
+  body.collapsed #content {
+    display: none;
+  }
+
+  #status {
+    font-size: 11px; color: #888; margin-bottom: 10px;
+    padding: 6px 10px; background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+  }
+  #status.ok { color: #56b368; }
+  #status.err { color: #e84057; }
+
+  /* 搜索框 */
+  #search {
+    display: flex; gap: 8px; margin-bottom: 12px;
+  }
+  #search input {
+    flex: 1; padding: 8px 12px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(200,170,110,0.3);
+    border-radius: 6px; color: #e8d8b0; font-size: 13px;
+    outline: none;
+  }
+  #search input:focus { border-color: #c8aa6e; }
+  #search button {
+    padding: 8px 14px;
+    background: rgba(200,170,110,0.15);
+    border: 1px solid rgba(200,170,110,0.4);
+    border-radius: 6px; color: #c8aa6e;
+    cursor: pointer; font-size: 13px;
+  }
+  #search button:hover { background: rgba(200,170,110,0.25); }
+
+  /* 结果区域 */
+  #result { display: none; }
+  .champ-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(200,170,110,0.15);
+  }
+  .champ-name { font-size: 18px; font-weight: bold; color: #e8d8b0; }
+  .champ-cost {
+    font-size: 11px; padding: 2px 8px;
+    border-radius: 10px; font-weight: bold;
+  }
+  .cost-1 { background: #555; color: #ddd; }
+  .cost-2 { background: #2d6b2d; color: #8afa8a; }
+  .cost-3 { background: #1a4a7a; color: #7ab8ff; }
+  .cost-4 { background: #5a2d7a; color: #d49aff; }
+  .cost-5 { background: #7a4a00; color: #ffcc44; }
+  .section-title {
+    font-size: 11px; color: #888; margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(200,170,110,0.15);
+  }
+  .section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .item-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .item-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px; font-size: 12px;
+  }
+  .item-name { color: #e8d8b0; }
+  .item-rate { color: #56b368; font-size: 11px; }
+  .build-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
+  .build-row {
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .build-items { font-size: 11px; color: #e8d8b0; margin-bottom: 2px; }
+  .build-rate { font-size: 10px; color: #56b368; }
+  .unit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; margin-bottom: 12px; }
+  .unit-card {
+    padding: 5px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .unit-card .name { font-size: 11px; color: #e8d8b0; }
+  .unit-card .rate { font-size: 10px; color: #56b368; }
+  .comp-list { display: flex; flex-direction: column; gap: 4px; }
+  .comp-row {
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .comp-traits { font-size: 11px; color: #c8aa6e; margin-bottom: 2px; }
+  .comp-rate { font-size: 11px; color: #56b368; }
+  .no-data { color: #666; font-size: 12px; text-align: center; padding: 20px; }
+
+  /* 实时对局视图样式 */
+  .phase-indicator {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px;
+    background: rgba(200,170,110,0.1);
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+  .phase-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #555;
+  }
+  .phase-dot.active { background: #56b368; animation: pulse 1.5s infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  .phase-text { font-size: 13px; color: #e8d8b0; }
+
+  .loading-spinner {
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px;
+    color: #888;
+    font-size: 12px;
+  }
+
+  /* 搜索建议下拉框 */
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(20, 25, 35, 0.98);
+    border: 1px solid rgba(200,170,110,0.3);
+    border-radius: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    display: none;
+    margin-top: 4px;
+  }
+  .suggestions.show { display: block; }
+  .suggestions::-webkit-scrollbar { width: 4px; }
+  .suggestions::-webkit-scrollbar-thumb { background: rgba(200,170,110,0.3); border-radius: 2px; }
+  .suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #e8d8b0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .suggestion-item:last-child { border-bottom: none; }
+  .suggestion-item:hover { background: rgba(200,170,110,0.15); }
+  .suggestion-item .name { color: #e8d8b0; }
+  .suggestion-item .alias { font-size: 10px; color: #888; margin-left: 6px; }
+  .suggestion-item .cost-tag {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  .live-section {
+    margin-bottom: 12px;
+  }
+  .live-section h3 {
+    font-size: 12px; color: #c8aa6e;
+    margin-bottom: 8px;
+  }
+  .top-units {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .top-unit-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .top-unit-row:hover { background: rgba(200,170,110,0.1); }
+  .top-unit-row .name { font-size: 12px; color: #e8d8b0; }
+  .top-unit-row .stats { font-size: 11px; color: #888; }
+  .top-unit-row .rate { font-size: 11px; color: #56b368; }
+
+  /* 个人数据样式 */
+  .summoner-card {
+    background: rgba(200,170,110,0.08);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .summoner-name { font-size: 16px; font-weight: bold; color: #e8d8b0; margin-bottom: 4px; }
+  .summoner-rank { font-size: 12px; color: #56b368; }
+  .summoner-level { font-size: 11px; color: #888; }
+
+  .stats-section { margin-bottom: 12px; }
+  .stats-section h3 {
+    font-size: 12px; color: #c8aa6e;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(200,170,110,0.2);
+  }
+
+  .match-history { display: flex; flex-direction: column; gap: 4px; }
+  .match-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 5px;
+  }
+  .match-placement {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: bold;
+  }
+  .place-1 { background: #ffd700; color: #000; }
+  .place-2 { background: #c0c0c0; color: #000; }
+  .place-3 { background: #cd7f32; color: #fff; }
+  .place-4 { background: #56b368; color: #fff; }
+  .place-bad { background: #555; color: #aaa; }
+  .match-info { flex: 1; }
+  .match-units { font-size: 11px; color: #e8d8b0; }
+  .match-traits { font-size: 10px; color: #888; }
+</style>
+</head>
+<body>
+<div id="titlebar">
+  <span class="title">TFT Advisor</span>
+  <div class="btns">
+    <button class="collapse-btn" id="collapse-btn" title="折叠">▼</button>
+    <button id="minimize-btn">—</button>
+    <button id="close-btn">×</button>
+  </div>
+</div>
+
+<div id="tabs">
+  <button class="tab active" data-view="recommend-view">装备推荐</button>
+  <button class="tab" data-view="live-view">实时对局</button>
+  <button class="tab" data-view="stats-view">个人数据</button>
+</div>
+
+<div id="content">
+  <!-- 装备推荐视图 -->
+  <div id="recommend-view" class="view active">
+    <div id="status">正在连接 LOL 客户端...</div>
+    <div id="search" style="position:relative;">
+      <input id="query" type="text" placeholder="输入英雄名（如：嘉文四世）" autocomplete="off" />
+      <button id="search-btn">查询</button>
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <!-- 实时对局视图 -->
+  <div id="live-view" class="view">
+    <div class="phase-indicator">
+      <div id="phase-dot" class="phase-dot"></div>
+      <span id="phase-text" class="phase-text">未在游戏中</span>
+    </div>
+    <div id="live-content">
+      <div class="no-data">开始游戏后显示实时数据</div>
+    </div>
+  </div>
+
+  <!-- 个人数据视图 -->
+  <div id="stats-view" class="view">
+    <div id="stats-content">
+      <div class="loading-spinner">正在加载个人数据...</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 等待 Tauri API 注入完成
+function waitForTauri() {
+  return new Promise((resolve) => {
+    // Tauri v2 使用 __TAURI_INTERNALS__ 作为内部 API
+    if (window.__TAURI_INTERNALS__) {
+      console.log('Found __TAURI_INTERNALS__');
+      resolve(window.__TAURI_INTERNALS__);
+      return;
+    }
+    // withGlobalTauri: true 时会注入 __TAURI__
+    if (window.__TAURI__) {
+      console.log('Found __TAURI__');
+      resolve(window.__TAURI__);
+      return;
+    }
+    // 轮询等待 Tauri 注入
+    const check = setInterval(() => {
+      if (window.__TAURI_INTERNALS__) {
+        clearInterval(check);
+        console.log('Found __TAURI_INTERNALS__ after polling');
+        resolve(window.__TAURI_INTERNALS__);
+      } else if (window.__TAURI__) {
+        clearInterval(check);
+        console.log('Found __TAURI__ after polling');
+        resolve(window.__TAURI__);
+      }
+    }, 50);
+    // 最多等待 5 秒
+    setTimeout(() => {
+      clearInterval(check);
+      console.log('Tauri API not found after 5s');
+      console.log('window.__TAURI__:', window.__TAURI__);
+      console.log('window.__TAURI_INTERNALS__:', window.__TAURI_INTERNALS__);
+      resolve(null);
+    }, 5000);
+  });
+}
+
+// 主初始化函数
+async function initApp() {
+  const tauriInternals = await waitForTauri();
+  console.log('Tauri API ready:', tauriInternals);
+
+  if (!tauriInternals) {
+    document.getElementById('status').textContent = 'Tauri API 加载失败';
+    document.getElementById('status').className = 'err';
+    return;
+  }
+
+  // 使用 Tauri 内部 API
+  const invoke = tauriInternals.invoke;
+  const windowLabel = 'main'; // 主窗口的 label
+
+  const appWindow = {
+    minimize: () => invoke('plugin:window|minimize', { label: windowLabel }),
+    close: () => invoke('plugin:window|close', { label: windowLabel }),
+    setSize: (size) => invoke('plugin:window|set_size', { label: windowLabel, size })
+  };
+
+// 窗口控制
+  document.getElementById('minimize-btn').addEventListener('click', () => {
+    console.log('minimize clicked');
+    appWindow.minimize();
+  });
+  document.getElementById('close-btn').addEventListener('click', () => {
+    console.log('close clicked');
+    appWindow.close();
+  });
+
+  // 折叠状态
+  let isCollapsed = false;
+  document.getElementById('collapse-btn').addEventListener('click', () => {
+    isCollapsed = !isCollapsed;
+    document.getElementById('collapse-btn').textContent = isCollapsed ? '▲' : '▼';
+    const height = isCollapsed ? 42 : 620;
+    invoke('resize_window', { height: height });
+  });
+
+  // Tab 切换
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const viewId = tab.dataset.view;
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      if (viewId === 'live-view') refreshLiveView();
+      if (viewId === 'stats-view') loadPersonalStats();
+    });
+  });
+
+  // 初始化
+  let lcuStatus = { ok: false };
+  let championList = [];
+
+  invoke('init').then(r => {
+    lcuStatus = r;
+    const el = document.getElementById('status');
+    if (r.ok) {
+      el.className = 'ok';
+      el.textContent = `已连接 | ${r.games} 场历史对局`;
+    } else {
+      el.className = 'err';
+      el.textContent = `连接失败: ${r.error}`;
+    }
+  });
+
+  invoke('get_champion_list').then(list => {
+    championList = list || [];
+  });
+
+  // ========== 搜索建议功能 ==========
+  const queryInput = document.getElementById('query');
+  const suggestionsEl = document.getElementById('suggestions');
+
+  queryInput.addEventListener('input', () => {
+    const value = queryInput.value.trim().toLowerCase();
+    if (!value || championList.length === 0) {
+      suggestionsEl.classList.remove('show');
+      suggestionsEl.innerHTML = '';
+      return;
+    }
+
+    const matches = championList.filter(c => {
+      if (c.name.toLowerCase().includes(value)) return true;
+      if (c.aliases && c.aliases.some(a => a.toLowerCase().includes(value))) return true;
+      return false;
+    }).slice(0, 8);
+
+    if (matches.length === 0) {
+      suggestionsEl.classList.remove('show');
+      suggestionsEl.innerHTML = '';
+      return;
+    }
+
+    suggestionsEl.innerHTML = matches.map(c => {
+      const costClass = `cost-${Math.min(c.cost || 1, 5)}`;
+      const aliasStr = c.aliases && c.aliases.length > 0 ? `(${c.aliases[0]})` : '';
+      return `
+        <div class="suggestion-item" data-name="${c.name}" data-id="${c.id}">
+          <span><span class="name">${c.name}</span><span class="alias">${aliasStr}</span></span>
+          <span class="cost-tag ${costClass}">${c.cost}费</span>
+        </div>
+      `;
+    }).join('');
+
+    suggestionsEl.classList.add('show');
+  });
+
+  suggestionsEl.addEventListener('click', (e) => {
+    const item = e.target.closest('.suggestion-item');
+    if (item) {
+      queryInput.value = item.dataset.name;
+      suggestionsEl.classList.remove('show');
+      suggestionsEl.innerHTML = '';
+      search();
+    }
+  });
+
+  queryInput.addEventListener('blur', () => setTimeout(() => suggestionsEl.classList.remove('show'), 200));
+  queryInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { suggestionsEl.classList.remove('show'); suggestionsEl.innerHTML = ''; }
+    if (e.key === 'Enter') search();
+  });
+
+  // ========== 装备推荐功能 ==========
+  async function search() {
+    const q = queryInput.value.trim();
+    if (!q) return;
+    const resultEl = document.getElementById('result');
+    resultEl.style.display = 'block';
+    resultEl.innerHTML = '<div class="loading-spinner">正在查询装备推荐...</div>';
+    try {
+      const rec = await invoke('recommend', { query: q });
+      renderResult(rec);
+    } catch (e) {
+      resultEl.innerHTML = '<div class="no-data">查询失败，请重试</div>';
+    }
+  }
+  document.getElementById('search-btn').addEventListener('click', search);
+  window.search = search;
+
+  function renderResult(rec) {
+    const el = document.getElementById('result');
+    if (!rec) {
+      el.style.display = 'block';
+      el.innerHTML = '<div class="no-data">未找到该英雄数据</div>';
+      return;
+    }
+    const costClass = `cost-${Math.min(rec.cost || 1, 5)}`;
+
+    const baseHtml = rec.baseStats ? `
+      <div style="display:flex;gap:10px;font-size:10px;color:#888;margin-bottom:8px">
+        <span>样本: ${rec.baseStats.totalGames?.toLocaleString()}</span>
+        <span>前四: ${rec.baseStats.top4Rate}%</span>
+        <span>胜率: ${rec.baseStats.winRate}%</span>
+        <span>均排: ${rec.baseStats.avgPlace}</span>
+      </div>
+    ` : '';
+
+    const itemsHtml = rec.recommendedItems && rec.recommendedItems.length
+      ? rec.recommendedItems.map(i => {
+          const rateInfo = i.top4Rate ? `前四: ${i.top4Rate}%` : (i.type || '');
+          return `<div class="item-row"><span class="item-name">${i.name}</span><span class="item-rate">${rateInfo}</span></div>`;
+        }).join('')
+      : '<div class="no-data">暂无装备数据</div>';
+
+    const buildsHtml = rec.buildCombinations && rec.buildCombinations.length
+      ? rec.buildCombinations.map(b => `
+          <div class="build-row">
+            <div class="build-items">${b.items.join(' + ')}</div>
+            <div class="build-rate">前四: ${b.top4Rate}% | 胜率: ${b.winRate}% | 样本: ${b.count}</div>
+          </div>
+        `).join('')
+      : '';
+
+    const unitsHtml = rec.relatedUnits && rec.relatedUnits.length
+      ? rec.relatedUnits.map(u => `
+          <div class="unit-card">
+            <div class="name">${u.name}</div>
+            <div class="rate">前四: ${u.top4Rate}% ${u.starRate ? `| 三星率: ${u.starRate}%` : ''}</div>
+          </div>
+        `).join('')
+      : '';
+
+    const traitsHtml = rec.traitStats && rec.traitStats.length
+      ? rec.traitStats.map(t => `
+          <div class="comp-row">
+            <div class="comp-traits"><b>${t.name}</b> (${t.tier}层)</div>
+            <div class="comp-rate">前四: ${t.top4Rate}% | 胜率: ${t.winRate}%</div>
+          </div>
+        `).join('')
+      : '<div class="no-data">暂无羁绊数据</div>';
+
+    const traitsStr = rec.traits && rec.traits.length
+      ? rec.traits.map(t => getTraitName(t)).join(', ')
+      : '';
+
+    el.style.display = 'block';
+    el.innerHTML = `
+      <div class="champ-header">
+        <span class="champ-name">${rec.unitName}</span>
+        <span class="champ-cost ${costClass}">${rec.cost}费</span>
+        <span style="margin-left:auto;font-size:11px;color:#56b368">${rec.role || ''}</span>
+      </div>
+      ${traitsStr ? `<div style="font-size:11px;color:#888;margin-bottom:8px">${traitsStr}</div>` : ''}
+      ${baseHtml}
+      <div class="section-title">推荐单件</div>
+      <div class="item-list">${itemsHtml}</div>
+      ${buildsHtml ? `<div class="section-title">出装组合</div><div class="build-list">${buildsHtml}</div>` : ''}
+      ${unitsHtml ? `<div class="section-title">相关弈子</div><div class="unit-grid">${unitsHtml}</div>` : ''}
+      <div class="section-title">羁绊统计</div>
+      <div class="comp-list">${traitsHtml}</div>
+    `;
+  }
+
+  function getTraitName(apiName) {
+    const traitMap = {
+      'TFT16_Demacia': '德玛西亚', 'TFT16_Ionia': '艾欧尼亚', 'TFT16_Void': '虚空',
+      'TFT16_Hextech': '海克斯科技', 'TFT16_Dragon': '巨龙', 'TFT16_ShadowIsle': '暗影岛',
+      'TFT16_Celestial': '天神', 'TFT16_Bruiser': '格斗家', 'TFT16_Slayer': '屠龙勇士',
+      'TFT16_Warden': '守护者', 'TFT16_Invoker': '唤魔师', 'TFT16_Reaper': '收割者',
+      'TFT16_Ambusher': '刺客', 'TFT16_Brawler': '斗士', 'TFT16_Fortune': '福牛',
+      'TFT17_Ghost': '幽灵', 'TFT17_Inkshadow': '墨影', 'TFT17_Reaper': '死神',
+      'TFT17_Bruiser': '斗士', 'TFT17_Dryad': '森灵', 'TFT17_Duelist': '决斗大师',
+      'TFT17_Fated': '灵魂莲华', 'TFT17_Heavenly': '天将', 'TFT17_Invoker': '法师',
+      'TFT17_Mythic': '山海绘卷', 'TFT17_Porcelain': '青花瓷', 'TFT17_Sage': '贤者',
+      'TFT17_Sniper': '狙神', 'TFT17_Storyweaver': '剪纸仙灵', 'TFT17_Arcanist': '术士',
+      'TFT17_Altruist': '护卫', 'TFT17_Behemoth': '擎天卫', 'TFT17_Dragonlord': '龙王'
+    };
+    return traitMap[apiName] || apiName.replace(/^TFT\d+_/, '');
+  }
+
+  // ========== 实时对局功能 ==========
+  async function refreshLiveView() {
+    const phaseEl = document.getElementById('phase-text');
+    const dotEl = document.getElementById('phase-dot');
+    const contentEl = document.getElementById('live-content');
+
+    try {
+      const phase = await invoke('get_phase');
+
+      const phaseNames = {
+        'None': '大厅', 'Lobby': '房间', 'Matchmaking': '匹配中',
+        'ReadyCheck': '确认对局', 'ChampSelect': '选人阶段',
+        'InProgress': '游戏中', 'PreEndOfGame': '结算中', 'EndOfGame': '游戏结束'
+      };
+      phaseEl.textContent = phaseNames[phase] || phase;
+      dotEl.classList.toggle('active', phase === 'InProgress');
+
+      if (phase === 'InProgress') {
+        contentEl.innerHTML = `
+          <div class="live-section">
+            <div style="padding: 12px; background: rgba(86,179,104,0.1); border-radius: 8px;">
+              <div style="font-size: 13px; color: #56b368;">游戏进行中</div>
+              <div style="font-size: 11px; color: #888; margin-top: 4px;">装备推荐请切换到第一个标签页</div>
+            </div>
+          </div>
+          <div class="live-section">
+            <h3>快捷装备查询</h3>
+            <div class="top-units">
+              ${getTopUnitButtons()}
+            </div>
+          </div>
+        `;
+      } else {
+        contentEl.innerHTML = `
+          <div class="live-section">
+            <div class="no-data">开始游戏后显示实时数据</div>
+          </div>
+          <div class="live-section">
+            <h3>快捷装备查询</h3>
+            <div class="top-units">
+              ${getTopUnitButtons()}
+            </div>
+          </div>
+        `;
+      }
+    } catch (e) {
+      contentEl.innerHTML = `<div class="no-data">错误: ${e}</div>`;
+    }
+  }
+
+  function getTopUnitButtons() {
+    const popularUnits = ['嘉文四世', '盖伦', '阿狸', '亚索', '卡莎', '赛娜'];
+    return popularUnits.map(name => `
+      <div class="top-unit-row" onclick="quickSearch('${name}')">
+        <span class="name">${name}</span>
+        <span class="rate" style="color:#c8aa6e">点击查询</span>
+      </div>
+    `).join('');
+  }
+
+  async function quickSearch(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-view="recommend-view"]').classList.add('active');
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('recommend-view').classList.add('active');
+    queryInput.value = name;
+    search();
+  }
+  window.quickSearch = quickSearch;
+
+  // ========== 个人数据功能 ==========
+  async function loadPersonalStats() {
+    const el = document.getElementById('stats-content');
+    if (!lcuStatus.ok) {
+      el.innerHTML = '<div class="no-data">未连接到 LOL 客户端</div>';
+      return;
+    }
+
+    el.innerHTML = '<div class="loading-spinner">正在加载个人数据...</div>';
+
+    try {
+      const stats = await invoke('get_player_stats');
+      if (!stats) {
+        el.innerHTML = '<div class="no-data">无法获取玩家数据</div>';
+        return;
+      }
+
+      // 召唤师卡片
+      const summonerHtml = `
+        <div class="summoner-card">
+          <div class="summoner-name">${stats.summoner.name}</div>
+          <div class="summoner-rank">${stats.rank || '未定级'}</div>
+          <div class="summoner-level">等级 ${stats.summoner.level} | ${stats.games.totalGames} 场对局</div>
+        </div>
+      `;
+
+      // 常用英雄 TOP 10
+      const topUnitsHtml = stats.topUnits && stats.topUnits.length
+        ? stats.topUnits.slice(0, 10).map(u => `
+            <div class="top-unit-row" onclick="quickSearch('${u.name}')">
+              <span class="name">${u.name}</span>
+              <span class="stats">${u.games}场</span>
+              <span class="rate">前四 ${u.top4Rate}%</span>
+            </div>
+          `).join('')
+        : '<div class="no-data">暂无数据</div>';
+
+      // 最近对局
+      const matchesHtml = stats.recentMatches && stats.recentMatches.length
+        ? stats.recentMatches.slice(0, 10).map(m => {
+            const placeClass = m.placement <= 4 ? `place-${m.placement}` : 'place-bad';
+            const unitsStr = (m.units || []).slice(0, 3).map(u => u.name).join(', ');
+            return `
+              <div class="match-row">
+                <div class="match-placement ${placeClass}">${m.placement}</div>
+                <div class="match-info">
+                  <div class="match-units">${unitsStr}</div>
+                  <div class="match-traits">${m.traits || ''}</div>
+                </div>
+              </div>
+            `;
+          }).join('')
+        : '<div class="no-data">暂无对局记录</div>';
+
+      el.innerHTML = `
+        ${summonerHtml}
+        <div class="stats-section">
+          <h3>常用英雄 TOP 10</h3>
+          <div class="top-units">${topUnitsHtml}</div>
+        </div>
+        <div class="stats-section">
+          <h3>最近对局</h3>
+          <div class="match-history">${matchesHtml}</div>
+        </div>
+      `;
+    } catch (e) {
+      el.innerHTML = `<div class="no-data">加载失败: ${e}</div>`;
+    }
+  }
+  window.loadPersonalStats = loadPersonalStats;
+
+  // 定时刷新实时数据
+  setInterval(() => {
+    const liveView = document.getElementById('live-view');
+    if (liveView.classList.contains('active')) {
+      refreshLiveView();
+    }
+  }, 3000);
+}
+
+// 启动应用
+initApp();
+</script>
+</body>
+</html>

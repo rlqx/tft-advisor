@@ -1,5 +1,22 @@
+# Dependencies
 node_modules/
+
+# Build outputs
 dist/
+tauri/src-tauri/target/
+
+# Logs
 *.log
+
+# OS files
 .DS_Store
 Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude
+.claude/

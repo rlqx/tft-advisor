@@ -1,0 +1,16 @@
+{
+  "name": "tft-advisor-tauri",
+  "version": "1.1.0",
+  "description": "TFT 云顶之弈助手 - Tauri 版本",
+  "scripts": {
+    "dev": "echo 'No dev server needed' && exit 0",
+    "tauri": "tauri",
+    "build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.10.1"
+  }
+}
